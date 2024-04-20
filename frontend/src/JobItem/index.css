@@ -1,0 +1,46 @@
+.company-icons {
+  width: 60px;
+  height: 60px;
+  margin: 20px 10px 0px 10px;
+}
+
+.job-detail-item {
+  background-color: #272727;
+  border-radius: 10px;
+  height: 250px;
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 100%;
+}
+
+.location-text {
+  color: rgb(217, 204, 204);
+  font-size: 13px;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.star-icon {
+  color: rgb(228, 228, 8);
+  margin: 0px 0px 0px 3px;
+  width: 10%;
+}
+.rating-text {
+}
+
+.line {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 900px) {
+  .job-detail-item {
+    height: 220px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .job-detail-item {
+    height: 200px;
+  }
+}

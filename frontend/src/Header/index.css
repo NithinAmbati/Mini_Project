@@ -1,0 +1,14 @@
+.height {
+  height: 80px;
+  background-color: rgb(105, 105, 105);
+  color: white;
+}
+
+.left {
+  margin-left: 80%;
+}
+
+.logout {
+  background-color: transparent;
+  border: none;
+}

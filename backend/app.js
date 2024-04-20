@@ -1,136 +1,182 @@
-const mysql = require("mysql");
+// const express = require("express");
+// const mongoose = require("mongoose");
+// const cors = require("cors"); // Import cors middleware
+
+// const app = express();
+// app.use(express.json());
+// app.use(cors());
+
+// const PORT = 3000;
+
+// // Connect to MongoDB
+// mongoose.connect("mongodb://localhost:27017/jobby", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+// const db = mongoose.connection;
+
+// // Define User schema
+// const UserSchema = new mongoose.Schema({
+//   username: String,
+//   password: String,
+// });
+// const User = mongoose.model("user-logins", UserSchema);
+
+// // Use cors middleware
+
+// app.get("/", async (request, response) => {
+//   try {
+//     const users = await User.find();
+//     console.log(users);
+//     response.status(200).send(users);
+//   } catch (error) {
+//     console.error("Error fetching users:", error);
+//     response.status(500).send("Internal Server Error");
+//   }
+// });
+
+// // Register route
+// app.post("/register", async (request, response) => {
+//   console.log(request.body);
+//   const { username, password } = request.body;
+
+//   try {
+//     // Check if user already exists
+//     const existingUser = await User.findOne({
+//       username: username,
+//       password: password,
+//     });
+//     if (existingUser) {
+//       response.status(400).send("User already exists");
+//       return;
+//     }
+
+//     // Create new user
+//     const newUser = new User({ username: username, password: password });
+//     await newUser.save();
+
+//     response.status(200).send("Registration successful");
+//   } catch (error) {
+//     console.error("Error registering user:", error);
+//     response.status(500).send("Error");
+//   }
+// });
+
+// // Start server
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
 const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const jwt = require("jsonwebtoken");
+
 const app = express();
 app.use(express.json());
-
-const cors = require("cors");
 app.use(cors());
 
-// Create a connection to the database
-const connection = mysql.createConnection({
-  host: "localhost", // Change to your MySQL host if different
-  user: "root", // MySQL username
-  password: "", // MySQL password (if no password, leave it empty)
-  database: "jobbyapp", // Name of your MySQL database
+// Connect to MongoDB
+mongoose.connect("mongodb://localhost:27017/jobby", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+const db = mongoose.connection;
+
+// Define User schema
+const userSchema1 = new mongoose.Schema({
+  username: String,
+  password: String,
 });
 
-//Connecting Server to Localhost: 3000
-const startServer = () => {
-  app.listen(3000, () => {
-    console.log("Server Running on Port No: 3000...");
-  });
-};
+const userSchema2 = new mongoose.Schema({
+  companyName: String,
+  location: String,
+  rating: Number,
+  package: Number,
+  description: String,
+});
 
-startServer();
+const User = mongoose.model("user-login", userSchema1);
+const Jobs = mongoose.model("job-listings", userSchema2);
 
-// Connect to the database
-connection.connect((err) => {
-  if (err) {
-    console.error("Error connecting to database:", err);
+// Start server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server Running on Port No: ${PORT}`);
+});
+
+// Register API
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      res.status(400).send("User already exists");
+      return;
+    }
+
+    // Create new user
+    const newUser = new User({ username, password });
+    await newUser.save();
+
+    res.status(200).send("Registration Successful");
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Login API
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Find user by username and password
+    const user = await User.findOne({ username, password });
+    if (!user) {
+      res.status(400).send("Login Failure");
+      return;
+    }
+
+    // Generate JWT token
+    const payload = {
+      username: username,
+    };
+    const jwtToken = jwt.sign(payload, "Nithin");
+    console.log(jwtToken);
+    res.status(201).send({ jwtToken });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Job Details API
+app.get("/jobs-list", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    res.status(401).send("Invalid Access Token");
     return;
   }
-  console.log("Connected to the database");
-});
+  const jwtToken = authHeader.split(" ")[1];
 
-// REGISTER API
-app.post("/register", async (request, response) => {
-  const { username, password } = request.body;
-
-  // Checking for username already exists or not
-  connection.query(
-    `SELECT * FROM user_details where username=? AND password=?`,
-    [username, password],
-    (err, results) => {
-      if (err) {
-        response.status(500).send("Error");
-        return;
-      } else {
-        if (results.length >= 1) {
-          response.status(400).send("User ALready Exists");
-          return;
-        } else {
-          // Perform the query
-          connection.query(
-            `INSERT INTO user_details values(?,?)`,
-            [username, password],
-            (err, results) => {
-              if (err) {
-                console.log("err");
-                response.status(500).send("Error");
-                return;
-              } else {
-                response.status(200).send("Registration SucessFull");
-              }
-            }
-          );
-        }
-      }
+  try {
+    // Verify JWT token
+    const payload = jwt.verify(jwtToken, "Nithin");
+    if (!payload) {
+      res.status(401).send("Invalid Access Token");
+      return;
     }
-  );
-});
 
-//LOGIN - API
-app.post("/login", async (request, response) => {
-  const { username, password } = request.body;
-
-  // Perform the query
-  connection.query(
-    `SELECT * FROM user_details WHERE username = ? AND password = ?`,
-    [username, password],
-    (err, results) => {
-      if (err) {
-        console.error("Error executing query:", err);
-        response.status(500).send("Internal Server Error");
-        return;
-      }
-
-      // Check if any rows were returned from the query are 0
-      if (results.length === 0) {
-        response.status(400).send("Login Failure");
-      } else {
-        const payload = {
-          username: username,
-        };
-        const jwtToken = jwt.sign(payload, "Nithin");
-        console.log(jwtToken);
-        response.status(201).send({ jwtToken });
-      }
-    }
-  );
-});
-
-// Job Details - API
-app.get("/jobs-list", async (request, response) => {
-  const authHeader = request.headers["authorization"];
-  let jwtToken;
-  if (authHeader !== undefined) {
-    jwtToken = authHeader.split(" ")[1];
-  }
-  if (jwtToken === undefined) {
-    response.status(401).send("invalid Access Token");
-  } else {
-    jwt.verify(jwtToken, "Nithin", async (error, payload) => {
-      if (error) {
-        response.send("Invalid Access Token");
-      } else {
-        connection.query(`SELECT * FROM job_listings`, (err, results) => {
-          if (err) {
-            response.status(500).send("Error");
-            return;
-          }
-          response.status(200).send(results);
-        });
-      }
-    });
+    // Query job listings
+    const jobListings = await Jobs.find(); // Replace with actual query to MongoDB
+    console.log(jobListings);
+    res.status(200).send(jobListings);
+  } catch (error) {
+    console.error("Error fetching job listings:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
-
-// Close the connection when done
-// connection.end((err) => {
-//   if (err) {
-//     console.error('Error closing database connection:', err);
-//     return;
-//   }
-//   console.log('Connection closed');
-// });
