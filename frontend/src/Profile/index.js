@@ -7,7 +7,7 @@ const Profile = () => {
       <Header />
       <div className="profile-page-container">
         <div>
-          
+          <h1>Hi Iam, Srivani</h1>
         </div>
       </div>
     </div>
