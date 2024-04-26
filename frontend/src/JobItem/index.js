@@ -9,13 +9,13 @@ const JobItem = (props) => {
   return (
     <li className="job-detail-item">
       <div className="mt-4">
-        <h6>{item.jobRole}</h6>
+        <h4>{item.companyName}</h4>
       </div>
       <div className="d-flex">
         <IoLocationOutline className="m-2" />
-        <p className="mr-4 location-text">{item.location}</p>
+        <p className="mr-4 location-text">{item.jobLocation}</p>
         <PiSuitcaseSimple className="m-2" />
-        <p className="ml-2 location-text">{item.package}</p>
+        <p className="ml-2 location-text">{item.mode}</p>
       </div>
       <hr className="line" />
       <p>{item.description}</p>

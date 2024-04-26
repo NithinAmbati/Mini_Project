@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import Cookies from "js-cookie";
 import { Redirect } from "react-router-dom";
-import { CiSearch } from "react-icons/ci";
 
 const employmentTypesList = [
   {
@@ -48,8 +47,8 @@ const salaryRangesList = [
 const Jobs = () => {
   const [jobsList, setJobsList] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [typeOfEmployment, setTypeOfEmployment] = useState("");
-  const [salaryRange, setSalaryRange] = useState(0);
+  const [typeOfEmployment, setTypeOfEmployment] = useState([]);
+  const [salaryRange, setSalaryRange] = useState([]);
   const [noFilters1, setNoFilters1] = useState(true);
   const [noFilters2, setNoFilters2] = useState(true);
 
@@ -58,7 +57,7 @@ const Jobs = () => {
   }, []);
 
   const getJobsList = async () => {
-    const apiUrl = `http://localhost:3000/jobs-list`;
+    const apiUrl = `http://localhost:3000/job-listings`;
     const jwtToken = Cookies.get("jwt_token");
     const options = {
       method: "GET",
@@ -75,12 +74,22 @@ const Jobs = () => {
   };
 
   const changeEmploymentType = (event) => {
-    setTypeOfEmployment(event.target.value);
+    const { value, checked } = event.target;
+    if (checked) {
+      setTypeOfEmployment([...typeOfEmployment, value]);
+    } else {
+      setTypeOfEmployment(typeOfEmployment.filter((type) => type !== value));
+    }
     setNoFilters1(false);
   };
 
   const changeSalaryRange = (event) => {
-    setSalaryRange(event.target.value);
+    const { value, checked } = event.target;
+    if (checked) {
+      setSalaryRange([...salaryRange, Number(value)]);
+    } else {
+      setSalaryRange(salaryRange.filter((salary) => salary !== Number(value)));
+    }
     setNoFilters2(false);
   };
 
@@ -89,8 +98,8 @@ const Jobs = () => {
   };
 
   const clearFilters = () => {
-    setTypeOfEmployment("");
-    setSalaryRange(0);
+    setTypeOfEmployment([]);
+    setSalaryRange([]);
     setNoFilters1(true);
     setNoFilters2(true);
   };
@@ -102,8 +111,10 @@ const Jobs = () => {
 
   const updatedJobsList = jobsList.filter(
     (item) =>
-      item.jobRole.toLowerCase().includes(typeOfEmployment.toLowerCase()) &&
-      item.package >= salaryRange &&
+      (typeOfEmployment.length === 0 ||
+        typeOfEmployment.includes(item.employmentTypeId)) &&
+      (salaryRange.length === 0 ||
+        salaryRange.some((range) => item.package >= range)) &&
       item.jobRole.toLowerCase().includes(searchInput.toLowerCase())
   );
 
@@ -124,11 +135,12 @@ const Jobs = () => {
             {employmentTypesList.map((item) => (
               <li className="role-based-list-item" key={item.employmentTypeId}>
                 <input
-                  type="radio"
+                  type="checkbox"
                   id={item.employmentTypeId}
                   name="employment-type"
                   value={item.employmentTypeId}
                   onChange={changeEmploymentType}
+                  checked={typeOfEmployment.includes(item.employmentTypeId)}
                 />
                 <label htmlFor={item.employmentTypeId}>{item.label}</label>
               </li>
@@ -140,11 +152,12 @@ const Jobs = () => {
             {salaryRangesList.map((item) => (
               <li className="role-based-list-item" key={item.label}>
                 <input
-                  type="radio"
+                  type="checkbox"
                   id={item.label}
                   name="salary-range"
                   value={item.salaryRangeId}
                   onChange={changeSalaryRange}
+                  checked={salaryRange.includes(item.salaryRangeId)}
                 />
                 <label htmlFor={item.label}>{item.label}</label>
               </li>

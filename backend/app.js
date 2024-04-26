@@ -1,72 +1,3 @@
-// const express = require("express");
-// const mongoose = require("mongoose");
-// const cors = require("cors"); // Import cors middleware
-
-// const app = express();
-// app.use(express.json());
-// app.use(cors());
-
-// const PORT = 3000;
-
-// // Connect to MongoDB
-// mongoose.connect("mongodb://localhost:27017/jobby", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-// const db = mongoose.connection;
-
-// // Define User schema
-// const UserSchema = new mongoose.Schema({
-//   username: String,
-//   password: String,
-// });
-// const User = mongoose.model("user-logins", UserSchema);
-
-// // Use cors middleware
-
-// app.get("/", async (request, response) => {
-//   try {
-//     const users = await User.find();
-//     console.log(users);
-//     response.status(200).send(users);
-//   } catch (error) {
-//     console.error("Error fetching users:", error);
-//     response.status(500).send("Internal Server Error");
-//   }
-// });
-
-// // Register route
-// app.post("/register", async (request, response) => {
-//   console.log(request.body);
-//   const { username, password } = request.body;
-
-//   try {
-//     // Check if user already exists
-//     const existingUser = await User.findOne({
-//       username: username,
-//       password: password,
-//     });
-//     if (existingUser) {
-//       response.status(400).send("User already exists");
-//       return;
-//     }
-
-//     // Create new user
-//     const newUser = new User({ username: username, password: password });
-//     await newUser.save();
-
-//     response.status(200).send("Registration successful");
-//   } catch (error) {
-//     console.error("Error registering user:", error);
-//     response.status(500).send("Error");
-//   }
-// });
-
-// // Start server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -91,9 +22,10 @@ const userSchema1 = new mongoose.Schema({
 
 const userSchema2 = new mongoose.Schema({
   companyName: String,
-  location: String,
-  rating: Number,
-  package: Number,
+  jobRole: String,
+  jobLocation: String,
+  mode: String,
+  stipend: String,
   description: String,
 });
 
@@ -155,7 +87,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Job Details API
-app.get("/jobs-list", async (req, res) => {
+app.get("/job-listings", async (req, res) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) {
     res.status(401).send("Invalid Access Token");
@@ -177,6 +109,31 @@ app.get("/jobs-list", async (req, res) => {
     res.status(200).send(jobListings);
   } catch (error) {
     console.error("Error fetching job listings:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Register API
+app.post("/job-listings", async (req, res) => {
+  const { companyName, stipend, mode, description, jobRole, jobLocation } =
+    req.body;
+
+  console.log(companyName);
+
+  try {
+    const newUser = new Jobs({
+      companyName,
+      stipend,
+      mode,
+      description,
+      jobRole,
+      jobLocation,
+    });
+    await newUser.save();
+
+    res.status(200).send("Registration Successful");
+  } catch (error) {
+    console.error("Error registering user:", error);
     res.status(500).send("Internal Server Error");
   }
 });

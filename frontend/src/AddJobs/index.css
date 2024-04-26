@@ -14,8 +14,11 @@
 .form-container {
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(to right, blue, purple);
+  background-color: rgb(68, 68, 68);
+  width: 400px;
+  border-radius: 20px;
   padding: 50px;
   opacity: 0.8;
   color: white;
+  gap: 8px;
 }

@@ -1,7 +1,6 @@
 .height {
   height: 80px;
   background-color: rgb(105, 105, 105);
-  color: white;
 }
 
 .left {
@@ -12,3 +11,4 @@
   background-color: transparent;
   border: none;
 }
+
