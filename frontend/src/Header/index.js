@@ -2,55 +2,37 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { CgProfile } from "react-icons/cg";
-import Cookie from "js-cookie";
 import "./index.css";
-import { useHistory } from "react-router-dom";
 
-function Header() {
-  const history = useHistory();
-
-  const logout = () => {
-    Cookie.remove("jwt_token");
-    history.push("/login");
-    window.location.reload();
-  };
-
+function CollapsibleExample() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="height">
+    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary h-[70px]">
       <Container>
-        <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">JObby</Navbar.Brand>
+
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto"></Nav>
-          <Nav>
-            <Nav.Link href="/" style={{ fontSize: "18px", color: "white" }}>
-              Home
-            </Nav.Link>
-
-            <Nav.Link href="/jobs" style={{ fontSize: "18px", color: "white" }}>
-              Jobs
-            </Nav.Link>
-            <Nav.Link
-              href="/add-jobs"
-              style={{ fontSize: "18px", color: "white" }}
-            >
-              Add Jobs
-            </Nav.Link>
-            <NavDropdown
-              title={
-                <span>
-                  <CgProfile className="w-100 h-100" />
-                </span>
-              }
-              id="collapsible-nav-dropdown"
-            >
-              <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
-              <NavDropdown.Item>
-                {" "}
-                <button onClick={logout} className="logout">Logout</button>{" "}
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/company-reviews">Company Reviews</Nav.Link>
+            <Nav.Link href="/salary-guide">Salary Guide</Nav.Link>
+            <NavDropdown title="nfkjnkg" id="collapsible-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">
+                Separated link
               </NavDropdown.Item>
             </NavDropdown>
+          </Nav>
+          <Nav>
+            <Nav.Link href="/login">
+              <span className="font-bold text-blue-700"> Sign In</span>
+            </Nav.Link>
+            <Nav.Link href="/post-jobs"> Employer / Post Job</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -58,4 +40,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default CollapsibleExample;

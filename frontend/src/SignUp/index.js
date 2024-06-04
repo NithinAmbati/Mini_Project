@@ -14,7 +14,7 @@ const SignUp = () => {
     event.preventDefault();
     const userDetails = { username, password, email };
     console.log(userDetails);
-    const url = "http://localhost:3000/register";
+    const url = "http://localhost:8000/register";
     const options = {
       method: "POST",
       headers: {

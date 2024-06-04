@@ -2,16 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+const crypto = require("crypto");
 
 const app = express();
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cors());
+require("dotenv").config();
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/jobby", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://localhost:27017/jobby", {});
 const db = mongoose.connection;
 
 // Define User schema
@@ -29,11 +31,24 @@ const userSchema2 = new mongoose.Schema({
   description: String,
 });
 
+const userSchema3 = new mongoose.Schema({
+  job_role: String,
+  salary: String,
+});
+
+const userSchema4 = new mongoose.Schema({
+  companyName: String,
+  reviewsCount: Number,
+  reviewScore: Number,
+});
+
 const User = mongoose.model("user-login", userSchema1);
-const Jobs = mongoose.model("job-listings", userSchema2);
+const Jobs = mongoose.model("jobs", userSchema2);
+const Salaries = mongoose.model("salaries", userSchema3);
+const CompanyReviews = mongoose.model("company-reviews", userSchema4);
 
 // Start server
-const PORT = 3000;
+const PORT = 8000;
 app.listen(PORT, () => {
   console.log(`Server Running on Port No: ${PORT}`);
 });
@@ -56,7 +71,6 @@ app.post("/register", async (req, res) => {
 
     res.status(200).send("Registration Successful");
   } catch (error) {
-    console.error("Error registering user:", error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -78,16 +92,14 @@ app.post("/login", async (req, res) => {
       username: username,
     };
     const jwtToken = jwt.sign(payload, "Nithin");
-    console.log(jwtToken);
     res.status(201).send({ jwtToken });
   } catch (error) {
-    console.error("Error logging in:", error);
     res.status(500).send("Internal Server Error");
   }
 });
 
 // Job Details API
-app.get("/job-listings", async (req, res) => {
+app.get("/jobs", async (req, res) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) {
     res.status(401).send("Invalid Access Token");
@@ -105,20 +117,16 @@ app.get("/job-listings", async (req, res) => {
 
     // Query job listings
     const jobListings = await Jobs.find(); // Replace with actual query to MongoDB
-    console.log(jobListings);
     res.status(200).send(jobListings);
   } catch (error) {
-    console.error("Error fetching job listings:", error);
     res.status(500).send("Internal Server Error");
   }
 });
 
-// Register API
-app.post("/job-listings", async (req, res) => {
+// Job Post API
+app.post("/jobs", async (req, res) => {
   const { companyName, stipend, mode, description, jobRole, jobLocation } =
     req.body;
-
-  console.log(companyName);
 
   try {
     const newUser = new Jobs({
@@ -133,7 +141,85 @@ app.post("/job-listings", async (req, res) => {
 
     res.status(200).send("Registration Successful");
   } catch (error) {
-    console.error("Error registering user:", error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+//Get Avg Salaries API
+app.get("/avg-salaries", async (req, res) => {
+  const data = await Salaries.find();
+  res.status(200).send(data);
+});
+
+//Get Companies Reviews API
+app.get("/company-reviews", async (req, res) => {
+  const data = await CompanyReviews.find();
+  res.status(200).send(data);
+});
+
+//POST Company with rating
+app.post("/company-reviews", async (req, res) => {
+  const { companyName, rating } = req.body;
+  const company = await CompanyReviews.findOne({ companyName: companyName });
+  console.log(company);
+  if (company === null) {
+    const newCompany = new CompanyReviews({
+      companyName,
+      reviewScore: rating,
+      reviewsCount: 1,
+    });
+    await newCompany.save();
+  } else {
+    await CompanyReviews.updateOne(
+      { companyName: companyName },
+      {
+        $set: {
+          reviewScore: company.reviewScore + rating,
+          reviewsCount: company.reviewsCount + 1,
+        },
+      }
+    );
+  }
+});
+
+//OTP System
+const otpStore = new Map();
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "nithinambati9@gmail.com",
+    pass: "nshv cokv qdpw pdzi",
+  },
+});
+
+app.post("/send-otp", (req, res) => {
+  const { email } = req.body;
+  const otp = crypto.randomInt(100000, 999999).toString();
+  otpStore.set(email, otp);
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Your OTP Code",
+    text: `Your OTP code is ${otp}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).send({ message: "Error sending email", error });
+    }
+    res.status(200).send({ message: "OTP sent" });
+  });
+});
+
+app.post("/verify-otp", (req, res) => {
+  const { email, otp } = req.body;
+  const storedOtp = otpStore.get(email);
+
+  if (storedOtp === otp) {
+    otpStore.delete(email); // Invalidate OTP after successful verification
+    res.status(200).send({ message: "OTP verified" });
+  } else {
+    res.status(400).send({ message: "Invalid OTP" });
   }
 });

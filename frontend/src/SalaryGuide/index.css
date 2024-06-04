@@ -1,0 +1,43 @@
+.salary-page-top-container {
+  display: flex;
+  flex-direction: column;
+  border-bottom-right-radius: 30%;
+  align-items: center;
+  height: 250px;
+}
+
+.search-container {
+  background-color: white;
+  padding: 20px;
+  border-top-right-radius: 20%;
+  position: relative;
+  height: 120px;
+  top: 40px;
+}
+
+.salary-page-bottom-container {
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.salaries-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.salary-item {
+  border: 1px solid rgb(184, 184, 184);
+  margin: 10px;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+}
+
+.salary-item:hover {
+  border: 1.2px solid rgb(70, 23, 224);
+  box-shadow: 2px 3px 3px 1px rgb(181, 181, 181);
+  cursor: pointer;
+}

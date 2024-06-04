@@ -24,7 +24,7 @@ const Login = () => {
     event.preventDefault();
     const userDetails = { username, password };
     console.log(userDetails);
-    const url = "http://localhost:3000/login";
+    const url = "http://localhost:8000/login";
     const options = {
       method: "POST",
       headers: {

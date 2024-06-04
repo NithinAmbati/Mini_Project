@@ -1,36 +1,69 @@
-import { Component } from "react";
-import Header from "../Header";
 import Cookies from "js-cookie";
 import { Redirect } from "react-router-dom";
+import { useState, useEffect } from "react";
+import JobItem from "../JobItem";
 import "./index.css";
 
-class Home extends Component {
-  render() {
-    const jwtToken = Cookies.get("jwt_token");
-    if (jwtToken === undefined) {
-      return <Redirect to="/login" />;
-    }
+const Home = () => {
+  const [jobsList, setJobsList] = useState([]);
 
-    return (
-      <div className="home-bg-container">
-        <Header />
-        <div className="home-page-container">
-          <div className="home-page-card-container">
-            <h1 className="home-heading">Find the Job that fits your Life</h1>
-            <p className="home-para">
-              Millios of people are searching for jobs, salaru information,
-              company reviews. Find the job that fits your abilities and
-              potential.
-            </p>
-            <button className="btn btn-primary">
-              <a href="/jobs" className="nav-item">
-                Find Jobs
-              </a>
-            </button>
-          </div>
+  useEffect(() => {
+    getJobsList();
+  }, []);
+
+  const getJobsList = async () => {
+    const apiUrl = `http://localhost:8000/jobs`;
+    const jwtToken = Cookies.get("jwt_token");
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    };
+    const response = await fetch(apiUrl, options);
+    if (response.ok) {
+      const fetchedData = await response.json();
+      setJobsList(fetchedData);
+    }
+  };
+  const jwtToken = Cookies.get("jwt_token");
+  if (jwtToken === undefined) {
+    return <Redirect to="/login" />;
+  }
+
+  return (
+    <div className="home-bg-container">
+      <div className="home-page-main-container">
+        <div className="home-search-container shadow-md shadow-gray-300">
+          <input
+            type="search"
+            placeholder="Search by Company, Job Roles"
+            className="border-r p-2 w-[300px]"
+          />
+          <input
+            type="search"
+            placeholder="Search by Location"
+            className="mx-2 p-2 "
+          />
+          <button className="btn btn-primary m-2">Find Jobs</button>
+        </div>
+        <p className="self-center mt-[20px]">
+          <span className="text-blue-800 font-bold">Post your Resume</span> -
+          For better UserExperience
+        </p>
+        <p className="text-blue-800 font-bold self-center mt-[-5px]">
+          Post a Job on Jobby
+        </p>
+        <hr className="self-center w-75" />
+        <h1 className="self-center">Jobs</h1>
+        <div className="flex flex-wrap self-center max-w-[840px]">
+          {jobsList.map((item) => (
+            <JobItem item={item} />
+          ))}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 export default Home;

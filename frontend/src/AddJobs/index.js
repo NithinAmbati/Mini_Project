@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "../Header";
 import "./index.css";
+import EmailVerification from "./EmailVerification";
 
 const AddJob = () => {
   const [companyName, setCompanyName] = useState("");
@@ -9,30 +9,6 @@ const AddJob = () => {
   const [mode, setMode] = useState("");
   const [stipend, setStipend] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-
-  const handleChangeCompanyName = (event) => {
-    setCompanyName(event.target.value);
-  };
-
-  const handleChangeJobLocation = (event) => {
-    setJobLocation(event.target.value);
-  };
-
-  const handleChangeJobRole = (event) => {
-    setJobRole(event.target.value);
-  };
-
-  const handleChangeMode = (event) => {
-    setMode(event.target.value);
-  };
-
-  const handleChangeStipend = (event) => {
-    setStipend(event.target.value);
-  };
-
-  const handleChangeJobDescription = (event) => {
-    setJobDescription(event.target.value);
-  };
 
   const addJobBtn = async (event) => {
     event.preventDefault();
@@ -52,7 +28,7 @@ const AddJob = () => {
       },
       body: JSON.stringify(jobDetails),
     };
-    const response = await fetch("http://localhost:3000/job-listings", options);
+    const response = await fetch("http://localhost:8000/jobs", options);
     if (response.ok) {
       alert("Job Added Successfully!");
       setCompanyName("");
@@ -68,32 +44,56 @@ const AddJob = () => {
 
   return (
     <div className="addjob-page-bg-container">
-      <Header />
+      <EmailVerification />
       <div className="addjob-page-container">
         <form className="form-container" onSubmit={addJobBtn}>
           <label>Company Name:</label>
           <input
             type="text"
             value={companyName}
-            onChange={handleChangeCompanyName}
+            onChange={(event) => {
+              setCompanyName(event.target.value);
+            }}
           />
           <label>Job Location</label>
           <input
             type="text"
             value={jobLocation}
-            onChange={handleChangeJobLocation}
+            onChange={(event) => {
+              setJobLocation(event.target.value);
+            }}
           />
           <label>Job Role:</label>
-          <input type="text" value={jobRole} onChange={handleChangeJobRole} />
+          <input
+            type="text"
+            value={jobRole}
+            onChange={(event) => {
+              setJobRole(event.target.value);
+            }}
+          />
           <label>Mode</label>
-          <input type="text" value={mode} onChange={handleChangeMode} />
+          <input
+            type="text"
+            value={mode}
+            onChange={(event) => {
+              setMode(event.target.value);
+            }}
+          />
           <label>Stipend</label>
-          <input type="text" value={stipend} onChange={handleChangeStipend} />
+          <input
+            type="text"
+            value={stipend}
+            onChange={(event) => {
+              setStipend(event.target.value);
+            }}
+          />
           <label>Job Description:</label>
           <input
             type="text"
             value={jobDescription}
-            onChange={handleChangeJobDescription}
+            onChange={(event) => {
+              setJobDescription(event.target.value);
+            }}
           />
           <button type="submit" className="btn btn-dark">
             Add

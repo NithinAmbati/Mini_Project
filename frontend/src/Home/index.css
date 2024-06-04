@@ -10,21 +10,18 @@
   align-items: flex-start;
   padding-left: 50px;
 }
-.home-page-card-container {
-  max-width: 350px;
-  font-size: 1rem;
-}
-* {
-  box-sizing: border-box;
-  margin: 0px;
+.home-page-main-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.home-heading {
-  color: white;
-}
-
-.home-para {
-  color: white;
+.home-search-container {
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  align-self: center;
+  border: 1px solid gray;
+  margin-top: 30px;
 }
 
 @media (min-width: 600px) {

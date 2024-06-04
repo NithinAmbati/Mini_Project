@@ -1,14 +1,4 @@
-.height {
-  height: 80px;
-  background-color: rgb(105, 105, 105);
+.header {
+  background-color: black;
+  height: 70px;
 }
-
-.left {
-  margin-left: 80%;
-}
-
-.logout {
-  background-color: transparent;
-  border: none;
-}
-
