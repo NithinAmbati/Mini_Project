@@ -23,7 +23,7 @@ const SalaryGuide = () => {
 
   return (
     <>
-      <div className="salary-page-top-container bg-blue-900 text-white p-5">
+      <div className="salary-page-top-container bg-gray-950 text-white p-5">
         <h3 className="font-bold">Find a Career You'll Love</h3>
         <p>
           Explore which careers have the highest job satisfaction, best salaries

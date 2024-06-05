@@ -20,6 +20,7 @@ const db = mongoose.connection;
 const userSchema1 = new mongoose.Schema({
   username: String,
   password: String,
+  email: String,
 });
 
 const userSchema2 = new mongoose.Schema({
@@ -55,18 +56,18 @@ app.listen(PORT, () => {
 
 // Register API
 app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
   try {
     // Check if user already exists
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username, emailh });
     if (existingUser) {
       res.status(400).send("User already exists");
       return;
     }
 
     // Create new user
-    const newUser = new User({ username, password });
+    const newUser = new User({ username, password, email });
     await newUser.save();
 
     res.status(200).send("Registration Successful");

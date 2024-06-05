@@ -1,11 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import {
-  BrowserRouter,
-  Switch as Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Home from "./Home";
@@ -16,6 +11,7 @@ import SalaryGuide from "./SalaryGuide";
 import CompanyReviews from "./CompanyReviews";
 import Footer from "./Footer";
 import Header from "./Header";
+import JobPostingHomePage from "./JobPostingHomePage";
 
 function App() {
   const location = useLocation();
@@ -25,14 +21,15 @@ function App() {
     <div>
       {!hideHeaderRoutes.includes(location.pathname) && <Header />}
       <Routes>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/" component={Home} />
-        <Route exact path="/jobs/:id" component={DetailedJobDescription} />
-        <Route exact path="/post-jobs" component={AddJob} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/salary-guide" component={SalaryGuide} />
-        <Route exact path="/company-reviews" component={CompanyReviews} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/sign-up" element={<SignUp />} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/jobs/:id" element={<DetailedJobDescription />} />
+        <Route exact path="/job-posting" element={<JobPostingHomePage />} />
+        <Route exact path="/post-jobs" element={<AddJob />} />
+        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/salary-guide" element={<SalaryGuide />} />
+        <Route exact path="/company-reviews" element={<CompanyReviews />} />
       </Routes>
       {!hideHeaderRoutes.includes(location.pathname) && <Footer />}
     </div>

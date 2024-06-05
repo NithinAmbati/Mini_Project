@@ -1,4 +1,46 @@
-.header {
-  background-color: black;
-  height: 70px;
+/* src/NavbarStyles.css */
+.custom-navbar {
+  background-color: black !important;
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link,
+.custom-navbar .navbar-toggler-icon {
+  color: white !important;
+}
+
+.custom-navbar .navbar-toggler {
+  border-color: white;
+}
+
+.custom-navbar .navbar-brand {
+  font-size: 1.5rem;
+}
+
+.custom-navbar .nav-link {
+  position: relative;
+}
+
+@media (min-width: 786px) {
+  .custom-navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 4px;
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+    transition: width 0.25s;
+  }
+
+  .custom-navbar .nav-link:hover::after {
+    width: 100%;
+    background-color: rgb(7, 67, 186);
+  }
+
+  .custom-navbar .nav-link.active::after {
+    width: 100%;
+    background-color: rgb(7, 67, 186);
+    transition: none;
+  }
 }

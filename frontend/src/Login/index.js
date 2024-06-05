@@ -1,10 +1,10 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Cookie from "js-cookie";
 import "./index.css";
 
 const Login = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,7 +12,7 @@ const Login = () => {
   const onChangePassword = (event) => setPassword(event.target.value);
 
   const loginSuccess = () => {
-    history.replace("/");
+    navigate("/");
     window.location.reload(); // Reload the page
   };
 

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import JobItem from "../JobItem";
 import "./index.css";
@@ -29,7 +29,7 @@ const Home = () => {
   };
   const jwtToken = Cookies.get("jwt_token");
   if (jwtToken === undefined) {
-    return <Redirect to="/login" />;
+    return <Navigate to="/some-path" />;
   }
 
   return (

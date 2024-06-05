@@ -1,32 +1,25 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import isBusinessEmail from "./emailChecker";
 
 function EmailVerification() {
   const [show, setShow] = useState(true);
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [displayOtp, setDisplayOtp] = useState(false);
   const [otp, setOtp] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSendOtp = async () => {
-    const isBusiness = isBusinessEmail(email);
-    if (isBusiness) {
-      try {
-        await fetch("http://localhost:8000/send-otp", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        });
-        setDisplayOtp(true);
-      } catch (error) {
-        setMessage("Error sending OTP");
-      }
-    } else {
-      setEmailError("*Business mail required");
+    try {
+      await fetch("http://localhost:8000/send-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      setDisplayOtp(true);
+    } catch (error) {
+      setMessage("Error sending OTP");
     }
   };
 
@@ -62,7 +55,6 @@ function EmailVerification() {
               onChange={(e) => setEmail(e.target.value)}
               className="form-control"
             />
-            <p className="text-sm text-red-700">{emailError}</p>
             <button onClick={handleSendOtp} className="btn btn-primary mb-2">
               Send OTP
             </button>

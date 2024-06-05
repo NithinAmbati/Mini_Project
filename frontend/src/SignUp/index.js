@@ -30,7 +30,7 @@ const SignUp = () => {
       setPassword("");
       setEmail("");
     } else {
-      alert("Registration Unsuccessful");
+      alert("User Already Exists");
     }
   };
 

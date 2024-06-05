@@ -1,5 +1,9 @@
 .addjob-page-bg-container {
-  height: 100vh;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .addjob-page-container {
@@ -7,17 +11,28 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  padding: 40px;
+  width: 100%;
 }
 
 .form-container {
   display: flex;
-  flex-direction: column;
-  background-color: rgb(68, 68, 68);
-  width: 400px;
-  border-radius: 20px;
+  border: 2px solid rgb(226, 226, 226);
+  width: 60%;
   padding: 50px;
-  opacity: 0.8;
-  color: white;
-  gap: 8px;
+}
+
+.form-container div {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+
+input {
+  border: 2px solid rgb(226, 226, 226);
+  margin-bottom: 20px;
+  height: 60px;
+  width: 90%;
+  font-weight: bold;
+  padding-left: 10px;
 }
