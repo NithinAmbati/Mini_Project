@@ -1,19 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import JobPostingHome from "./JobPostingHome";
+import JobPostingSteps from "./JobPostingSteps";
+import QuickHire from "./QuickHire";
 
 function JobPostingHomePage() {
-  const navigate = useNavigate();
   return (
     <div>
-      <h1>Job Posting Home Page</h1>
-      <button
-        onClick={() => {
-          navigate("/post-jobs");
-        }}
-        className="btn btn-primary"
-      >
-        Post a Job
-      </button>
+      <JobPostingHome />
+      <JobPostingSteps />
+      <QuickHire />
     </div>
   );
 }
