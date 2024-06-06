@@ -1,95 +1,97 @@
-// src/components/CollapsibleExample.js
-import React, { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import "./index.css"; // Import the custom CSS
+import React, { useState, useEffect } from "react";
+import { RxCross2 } from "react-icons/rx";
+import { IoReorderThreeSharp } from "react-icons/io5";
 
-function CollapsibleExample() {
-  const [activeLink, setActiveLink] = useState("");
+import "./index.css";
 
-  const handleSelect = (selectedKey) => {
-    setActiveLink(selectedKey);
+const Header = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
 
-  return (
-    <Navbar collapseOnSelect expand="lg" className="custom-navbar">
-      <Container>
-        <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav
-            className="me-auto"
-            activeKey={activeLink}
-            onSelect={handleSelect}
-          >
-            <Nav.Link
-              href="/company-reviews"
-              eventKey="company-reviews"
-              className={activeLink === "features" ? "active" : ""}
-            >
-              Company Reviews
-            </Nav.Link>
-            <Nav.Link
-              href="/salary-guide"
-              eventKey="salary-guide"
-              className={activeLink === "pricing" ? "active" : ""}
-            >
-              SalaryGuide
-            </Nav.Link>
-            <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
-              <NavDropdown.Item
-                href="/"
-                eventKey="action1"
-                onClick={() => handleSelect("action1")}
-              >
-                Action
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                href="#action/3.2"
-                eventKey="action2"
-                onClick={() => handleSelect("action2")}
-              >
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                href="#action/3.3"
-                eventKey="action3"
-                onClick={() => handleSelect("action3")}
-              >
-                Something
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item
-                href="#action/3.4"
-                eventKey="action4"
-                onClick={() => handleSelect("action4")}
-              >
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Nav activeKey={activeLink} onSelect={handleSelect}>
-            <Nav.Link
-              href="/login"
-              eventKey="login"
-              className={activeLink === "deets" ? "active" : ""}
-            >
-              Sign In
-            </Nav.Link>
-            <Nav.Link
-              eventKey="job-posting"
-              href="/job-posting"
-              className={activeLink === "memes" ? "active" : ""}
-            >
-              Employer / Post Job
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
-}
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
 
-export default CollapsibleExample;
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      if (!event.target.closest(".header") && sidebarOpen) {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [sidebarOpen]);
+
+  const handleTradeNameClick = () => {};
+
+  return (
+    <header className="header">
+      <div className="header-top-section">
+        <div className="logo">
+          <a
+            onClick={handleTradeNameClick}
+            className="pointer text-white"
+            href="/"
+          >
+            JOBBY
+          </a>
+        </div>{" "}
+        <ul className="header-top-list-container">
+          <li>
+            <a href="/" className="text-white">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/company-reviews" className="text-white">
+              Company Reviews
+            </a>
+          </li>
+          <li>
+            <a href="/salary-guide" className="text-white">
+              Salary Guide
+            </a>
+          </li>
+          <li>
+            <a href="/job-posting" className="text-white">
+              Post Job
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <nav className={`nav bg-light ${sidebarOpen ? "nav--open" : ""}`}>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/company-reviews">Company Reviews</a>
+          </li>
+          <li>
+            <a href="/salary-guide">Salary Guide</a>
+          </li>
+          <li>
+            <a href="/job-posting">Post Job</a>
+          </li>
+        </ul>
+      </nav>
+      <div className="hamburger" onClick={toggleSidebar}>
+        {sidebarOpen ? (
+          <RxCross2 className="nav-logo" />
+        ) : (
+          <IoReorderThreeSharp className="nav-logo" />
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default Header;

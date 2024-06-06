@@ -74,12 +74,10 @@ const CompanyReviews = () => {
     <div className="company-reviews-page-container">
       <h1>Find great places to work</h1>
       <h5 className="mt-3">Get access to millions of company reviews</h5>
-      <label className="mt-3 mb-2">Company name or job title</label>
-      <div className="flex h-[50px] mb-2">
+      <label className="mt-3 mb-2">Company name</label>
+      <div className="company-reviews-search-container">
         <input type="search" className="company-reviews-search" />
-        <button className="btn text-white bg-blue-950 btn-primary">
-          Find Companies
-        </button>
+        <button className="btn btn-primary">Find Companies</button>
       </div>
       <a href="/salary-guide" className="underline text-blue-400">
         Do you want to search for salaries?

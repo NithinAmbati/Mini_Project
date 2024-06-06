@@ -1,46 +1,119 @@
-/* src/NavbarStyles.css */
-.custom-navbar {
-  background-color: black !important;
+/* src/Header.css */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+  background-color: black;
+  color: white;
+  margin-bottom: 0px;
+  height: 80px;
 }
 
-.custom-navbar .navbar-brand,
-.custom-navbar .nav-link,
-.custom-navbar .navbar-toggler-icon {
-  color: white !important;
+.header-top-section {
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  width: 100%;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
 }
 
-.custom-navbar .navbar-toggler {
-  border-color: white;
+.header-top-list-container {
+  display: flex;
 }
 
-.custom-navbar .navbar-brand {
+.header-top-list-container li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.logo {
   font-size: 1.5rem;
 }
 
-.custom-navbar .nav-link {
-  position: relative;
+.nav {
+  display: none;
+  gap: 1rem;
+  width: 100%;
+  background-color: white;
+  color: black;
 }
 
-@media (min-width: 786px) {
-  .custom-navbar .nav-link::after {
-    content: "";
-    position: absolute;
-    width: 0%;
-    height: 4px;
-    bottom: 0;
+.nav a {
+  color: black;
+  text-decoration: none;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 0.3rem;
+  cursor: pointer;
+  z-index: 1001;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 15px;
+}
+
+.hamburger__bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  display: inline-block;
+}
+
+.sidebar-heading {
+  display: none;
+}
+
+.nav ul li {
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: flex;
+    position: fixed;
+    top: 0;
     left: 0;
-    background-color: transparent;
-    transition: width 0.25s;
+    height: 100vh;
+    width: 250px;
+    background-color: white;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    padding-top: 30px;
   }
 
-  .custom-navbar .nav-link:hover::after {
-    width: 100%;
-    background-color: rgb(7, 67, 186);
+  .nav--open {
+    transform: translateX(0);
   }
 
-  .custom-navbar .nav-link.active::after {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-logo {
+    scale: 2.5;
+  }
+
+  .header {
+    flex-direction: row;
+  }
+
+  .header-top-list-container {
+    display: none;
+  }
+  .sidebar-heading {
+    display: block;
+    background-color: green;
+    color: white;
     width: 100%;
-    background-color: rgb(7, 67, 186);
-    transition: none;
   }
 }

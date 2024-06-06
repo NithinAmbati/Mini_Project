@@ -1,21 +1,27 @@
 .company-reviews-page-container {
-  padding-left: 240px;
-  padding-top: 80px;
-  padding-bottom: 100px;
-  padding-right: 200px;
+  padding: 20px;
+}
+
+.company-reviews-search-container {
+  width: 100%;
 }
 
 .company-reviews-search {
-  width: 300px;
+  width: 80%;
   border: 1px solid black;
   margin-right: 10px;
   border-radius: 4px;
+}
+
+.company-reviews-search-container button {
+  height: 60px;
 }
 
 .company-reviews-container {
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
+  justify-content: center;
 }
 
 .company-reviews-item {
@@ -24,6 +30,7 @@
   padding: 15px;
   width: 250px;
   margin: 10px;
+  box-shadow: 1px 1px 1px 1px gray;
 }
 
 .reviews-container {
@@ -52,11 +59,16 @@
 
 .rating-system {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   background-color: rgb(220, 246, 220);
-  height: 100px;
-  justify-content: center;
   margin-top: 50px;
+  padding: 10px;
+}
+
+.rating-system div {
+  margin-bottom: 20px;
 }
 
 .star-rating {
@@ -72,4 +84,19 @@
 
 .star.selected {
   color: gold;
+}
+
+@media (min-width: 800px) {
+  .company-reviews-page-container {
+    padding: 50px 100px 100px 100px;
+  }
+  .rating-system {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1000px) {
+  .company-reviews-page-container {
+    padding: 60px 120px 120px 120px;
+  }
 }

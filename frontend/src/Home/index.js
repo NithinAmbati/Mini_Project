@@ -33,20 +33,20 @@ const Home = () => {
   }
 
   return (
-    <div className="home-bg-container">
+    <div className="home-page-bg-container">
       <div className="home-page-main-container">
         <div className="home-search-container shadow-md shadow-gray-300">
           <input
             type="search"
             placeholder="Search by Company, Job Roles"
-            className="border-r p-2 w-[300px]"
+            className="border-r p-2"
           />
           <input
             type="search"
             placeholder="Search by Location"
             className="mx-2 p-2 "
           />
-          <button className="btn btn-primary m-2">Find Jobs</button>
+          <button className="btn btn-primary">Find Jobs</button>
         </div>
         <p className="self-center mt-[20px]">
           <span className="text-blue-800 font-bold">Post your Resume</span> -
@@ -57,7 +57,7 @@ const Home = () => {
         </p>
         <hr className="self-center w-75" />
         <h1 className="self-center">Jobs</h1>
-        <div className="flex flex-wrap self-center max-w-[840px]">
+        <div className="jobs-list-container">
           {jobsList.map((item) => (
             <JobItem item={item} />
           ))}

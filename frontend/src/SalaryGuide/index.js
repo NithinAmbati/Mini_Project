@@ -29,29 +29,18 @@ const SalaryGuide = () => {
           Explore which careers have the highest job satisfaction, best salaries
           and more
         </p>
-        <div className="search-container self-center flex justify-center items-center border-2 rounded-lg shadow-md border-gray h-[120px] relative top-[100px]">
-          <div className="flex flex-col">
-            <label className="text-black">What</label>
-            <input
-              type="search"
-              placeholder="Search by Company, Job Roles"
-              className="border-1 border-black p-2 w-[300px]"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-black">Where</label>
-            <input
-              type="search"
-              placeholder="Search by Location"
-              className="mx-2 p-2  border-1 border-black"
-            />
-          </div>
-          <button className="btn btn-primary m-2 mt-4">Find Jobs</button>
+        <div className="salary-guide-search-container shadow-md">
+          <input
+            type="search"
+            placeholder="Search by Job Roles"
+            className="border-1 border-gray-400 p-2 "
+          />
+          <button className="btn btn-primary mb-3 ml-2">Find Jobs</button>
         </div>
       </div>
       <div className="salary-page-bottom-container">
         <h4 className="font-bold">Browse Top Paying Companies by Industry</h4>
-        <div className="salaries-container">
+        <div className="salaries-list-container">
           {data.map((item) => (
             <div className="salary-item">
               <h4 className="text-lg font-bold">{item.job_role}</h4>
