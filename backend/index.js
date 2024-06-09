@@ -13,7 +13,12 @@ app.use(cors());
 require("dotenv").config();
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/jobby", {});
+mongoose
+  .connect(
+    "mongodb+srv://nithinambati2:zaJQoWOClcQ6AV1r@cluster0.9qpuxmc.mongodb.net/jobby?retryWrites=true&w=majority"
+  )
+  .then(() => console.log("MongoDB connected..."))
+  .catch(() => console.log("Eroor connecting DB.."));
 const db = mongoose.connection;
 
 // Define User schema
@@ -111,7 +116,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Job Details API
+// Jobs API
 app.get("/jobs", async (req, res) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) {
@@ -134,6 +139,13 @@ app.get("/jobs", async (req, res) => {
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
+});
+
+// Jobs Detailed API
+app.get("/jobs/:id", async (req, res) => {
+  const { id } = req.params;
+  const job = await Jobs.findOne({ _id: id });
+  res.status(200).send(job);
 });
 
 // Job Post API

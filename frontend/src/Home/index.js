@@ -21,9 +21,11 @@ const Home = () => {
         Authorization: `Bearer ${jwtToken}`,
       },
     };
+
     const response = await fetch(apiUrl, options);
     if (response.ok) {
       const fetchedData = await response.json();
+      console.log(fetchedData);
       setJobsList(fetchedData);
     }
   };
@@ -59,7 +61,7 @@ const Home = () => {
         <h1 className="self-center">Jobs</h1>
         <div className="jobs-list-container">
           {jobsList.map((item) => (
-            <JobItem item={item} />
+            <JobItem item={item} key={item._id} />
           ))}
         </div>
       </div>

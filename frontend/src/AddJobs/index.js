@@ -17,7 +17,7 @@ const AddJob = () => {
   const [jobPostingDate, setJobPostingDate] = useState(Date);
   const [applicationDeadline, setApplicationDeadline] = useState(Date);
   const [applicationProcess, setApplicationProcess] = useState([]);
-  const [jobDuraion, setJobDuration] = useState("");
+  const [jobDuration, setJobDuration] = useState("");
   const [workHours, setWorkHours] = useState("");
   const [benefits, setBenefits] = useState([]);
   const [skills, setSkills] = useState([]);
@@ -26,11 +26,23 @@ const AddJob = () => {
     event.preventDefault();
     const jobDetails = {
       companyName,
-      jobLocation,
       jobRole,
+      jobLocation,
       jobType,
+      mode,
       stipend,
+      companyOverview,
       jobDescription,
+      qualifications,
+      experienceLevel,
+      educationLevel,
+      jobPostingDate,
+      applicationDeadline,
+      applicationProcess,
+      jobDuration,
+      workHours,
+      benefits,
+      skills,
     };
     console.log(jobDetails);
     const options = {
@@ -178,7 +190,7 @@ const AddJob = () => {
               <label>Job Duration:</label>
               <input
                 type="text"
-                value={jobDuraion}
+                value={jobDuration}
                 onChange={(event) => {
                   setJobDuration(event.target.value);
                 }}
