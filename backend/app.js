@@ -27,9 +27,21 @@ const userSchema2 = new mongoose.Schema({
   companyName: String,
   jobRole: String,
   jobLocation: String,
+  jobType: String,
   mode: String,
   stipend: String,
-  description: String,
+  companyOverview: String,
+  jobDescription: String,
+  qualifications: String,
+  experienceLevel: String,
+  educationLevel: String,
+  jobPostingDate: Date,
+  applicationDeadline: Date,
+  applicationProcess: String,
+  jobDuration: String,
+  workHours: String,
+  benefits: Array,
+  skills: Array,
 });
 
 const userSchema3 = new mongoose.Schema({
@@ -126,20 +138,49 @@ app.get("/jobs", async (req, res) => {
 
 // Job Post API
 app.post("/jobs", async (req, res) => {
-  const { companyName, stipend, mode, description, jobRole, jobLocation } =
-    req.body;
+  const {
+    companyName,
+    jobRole,
+    jobLocation,
+    jobType,
+    mode,
+    stipend,
+    companyOverview,
+    jobDescription,
+    qualifications,
+    experienceLevel,
+    educationLevel,
+    jobPostingDate,
+    applicationDeadline,
+    applicationProcess,
+    jobDuration,
+    workHours,
+    benefits = [],
+    skills = [],
+  } = req.body;
 
   try {
-    const newUser = new Jobs({
+    const newJob = new Jobs({
       companyName,
-      stipend,
-      mode,
-      description,
       jobRole,
       jobLocation,
+      jobType,
+      mode,
+      stipend,
+      companyOverview,
+      jobDescription,
+      qualifications,
+      experienceLevel,
+      educationLevel,
+      jobPostingDate,
+      applicationDeadline,
+      applicationProcess,
+      jobDuration,
+      workHours,
+      benefits,
+      skills,
     });
-    await newUser.save();
-
+    await newJob.save();
     res.status(200).send("Registration Successful");
   } catch (error) {
     res.status(500).send("Internal Server Error");

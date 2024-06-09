@@ -17,15 +17,18 @@
 
 .form-container {
   display: flex;
+  flex-direction: column;
   border: 2px solid rgb(226, 226, 226);
   width: 60%;
   padding: 50px;
 }
 
-.form-container div {
+.form-sub-container {
   display: flex;
-  flex-direction: column;
-  width: 40%;
+}
+
+.form-sub-container div {
+  width: 50%;
 }
 
 input {
