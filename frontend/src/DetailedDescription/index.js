@@ -1,25 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 const DetailedJobDescription = () => {
   const { id } = useParams();
-  console.log(id);
   const [jobDetails, setJobDetails] = useState({});
+
+  const getData = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `https://mini-project-nine-rho.vercel.app/jobs/${id}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch job details");
+      }
+      const parsedData = await response.json();
+      setJobDetails(parsedData);
+    } catch (error) {
+      console.error("Error fetching job details:", error);
+    }
+  }, [id]);
+
   useEffect(() => {
     getData();
-  }, []);
-
-  const getData = async () => {
-    const options = {
-      method: "GET",
-    };
-    const response = await fetch(`http://localhost:8000/jobs/${id}`, options);
-    if (response.ok) {
-      const parsedData = await response.json();
-      console.log(parsedData);
-      setJobDetails(parsedData);
-    }
-  };
+  }, [getData]);
 
   return (
     <div>

@@ -12,7 +12,10 @@ const SalaryGuide = () => {
     const options = {
       method: "GET",
     };
-    const response = await fetch("http://localhost:8000/avg-salaries", options);
+    const response = await fetch(
+      "https://mini-project-nine-rho.vercel.app/avg-salaries",
+      options
+    );
     if (response.ok) {
       const data = await response.json();
       setData(data);

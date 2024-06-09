@@ -10,7 +10,7 @@ function EmailVerification() {
 
   const handleSendOtp = async () => {
     try {
-      await fetch("http://localhost:8000/send-otp", {
+      await fetch("https://mini-project-nine-rho.vercel.app/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,13 +25,16 @@ function EmailVerification() {
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await fetch("http://localhost:8000/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
+      const response = await fetch(
+        "https://mini-project-nine-rho.vercel.app/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
       if (response.ok) setShow(false);
       else setMessage("*Invalid otp");
     } catch (error) {

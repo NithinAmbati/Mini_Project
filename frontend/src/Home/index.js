@@ -12,7 +12,7 @@ const Home = () => {
   }, []);
 
   const getJobsList = async () => {
-    const apiUrl = `http://localhost:8000/jobs`;
+    const apiUrl = `https://mini-project-nine-rho.vercel.app/jobs`;
     const jwtToken = Cookies.get("jwt_token");
     const options = {
       method: "GET",

@@ -52,7 +52,10 @@ const AddJob = () => {
       },
       body: JSON.stringify(jobDetails),
     };
-    const response = await fetch("http://localhost:8000/jobs", options);
+    const response = await fetch(
+      "https://mini-project-nine-rho.vercel.app/jobs",
+      options
+    );
     if (response.ok) {
       alert("Job Added Successfully!");
       setCompanyName("");
@@ -68,7 +71,7 @@ const AddJob = () => {
 
   return (
     <div className="addjob-page-bg-container">
-      {/* <EmailVerification /> */}
+      <EmailVerification />
       <div className="addjob-page-container">
         <form className="form-container" onSubmit={addJobBtn}>
           <div className="form-sub-container">

@@ -24,7 +24,7 @@ const Login = () => {
     event.preventDefault();
     const userDetails = { username, password };
     console.log(userDetails);
-    const url = "http://localhost:8000/login";
+    const url = "https://mini-project-nine-rho.vercel.app/login";
     const options = {
       method: "POST",
       headers: {
