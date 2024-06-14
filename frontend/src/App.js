@@ -75,8 +75,6 @@ function App() {
   const location = useLocation();
 
   const employerRoutes = [
-    "/employer/login",
-    "/employer/signup",
     "/employer",
     "/jobs/posting",
     "/jobs/posting/post",
@@ -85,8 +83,6 @@ function App() {
   ];
 
   const studentRoutes = [
-    "/student/login",
-    "/student/signup",
     "/student",
     "/student/profile",
     "/student/salary-guide",
@@ -106,9 +102,9 @@ function App() {
     <div>
       {isEmployerRoute && <Header headerContent={EmployerHeaderContent} />}
       {isStudentRoute && <Header headerContent={StudentHeaderContent} />}
-      {!isEmployerRoute && !isStudentRoute && (
-        <Header headerContent={headerContent} />
-      )}
+      {!AuthenticateRoutes.includes(location.pathname) &&
+        !isEmployerRoute &&
+        !isStudentRoute && <Header headerContent={headerContent} />}
 
       <Routes>
         <Route exact path="/" element={<Home />} />
