@@ -35,10 +35,6 @@ const EmployerProfile = () => {
     setProfile({ ...profile, [name]: value });
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -79,25 +75,66 @@ const EmployerProfile = () => {
   ]);
   const [selectedOptions, setSelectedOptions] = useState(skills);
 
+  //Jobs
+  const jobs = [
+    { value: "C Programming", label: "C Programming" },
+    { value: "C++", label: "C++" },
+    { value: "Java", label: "Java" },
+    { value: "Python", label: "Python" },
+    { value: "JavaScript", label: "JavaScript" },
+    { value: "Ruby", label: "Ruby" },
+  ];
+
+  const [job, setJobs] = useState([
+    { value: "C Programming", label: "C Programming" },
+    { value: "Java", label: "Java" },
+  ]);
+  const [selectedJobs, setSelectedJob] = useState(jobs);
+
+  //Qualification
+  const qualification = [
+    { value: "C Programming", label: "C Programming" },
+    { value: "C++", label: "C++" },
+    { value: "Java", label: "Java" },
+    { value: "Python", label: "Python" },
+    { value: "JavaScript", label: "JavaScript" },
+    { value: "Ruby", label: "Ruby" },
+  ];
+
+  const [qualifications, setQualification] = useState([
+    { value: "C Programming", label: "C Programming" },
+    { value: "Java", label: "Java" },
+  ]);
+  const [selectedQualification, setSelectedQualification] =
+    useState(qualification);
+
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
     setSkills(selectedOptions);
+    setJobs(selectedJobs);
+    setQualification(selectedQualification);
     setIsEditing(false);
-  };
-
-  const handleSaveOptions = () => {
-    setSkills(selectedOptions);
   };
 
   const handleCancel = () => {
     setSelectedOptions(skills);
+    setSelectedJob(jobs);
+    setSelectedQualification(qualification);
     setIsEditing(false);
   };
 
-  const handleChange = (selected) => {
+  const handleSkillsChange = (selected) => {
+    setSelectedOptions(selected || []);
+  };
+
+  const handleJobsChange = (selected) => {
+    setSelectedOptions(selected || []);
+  };
+
+  const handleQualificationChange = (selected) => {
     setSelectedOptions(selected || []);
   };
 
@@ -200,48 +237,79 @@ const EmployerProfile = () => {
                     isMulti
                     options={options}
                     value={selectedOptions}
-                    onChange={handleChange}
+                    onChange={handleSkillsChange}
                     styles={customStyles}
                     placeholder="Select skills..."
                   />
-                  <div style={{ marginTop: "10px" }}>
-                    <button
-                      style={{
-                        backgroundColor: "#007bff",
-                        color: "white",
-                        border: "none",
-                        padding: "10px",
-                        cursor: "pointer",
-                        borderRadius: "4px",
-                      }}
-                      onClick={handleSaveOptions}
-                    >
-                      Save
-                    </button>
-                    <button
-                      style={{
-                        backgroundColor: "#6c757d",
-                        color: "white",
-                        border: "none",
-                        padding: "10px",
-                        cursor: "pointer",
-                        borderRadius: "4px",
-                        marginLeft: "10px",
-                      }}
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                </div>
+              )}
+            </p>
+            <p>
+              <strong>Jobs:</strong>
+              {!isEditing ? (
+                <ul className="list">
+                  {job.map((job) => (
+                    <li key={job.value}>{job.label}</li>
+                  ))}
+                </ul>
+              ) : (
+                <div>
+                  <Select
+                    components={animatedComponents}
+                    isMulti
+                    options={jobs}
+                    value={selectedJobs}
+                    onChange={handleJobsChange}
+                    styles={customStyles}
+                    placeholder="Jobs"
+                  />
+                </div>
+              )}
+            </p>
+            <p>
+              <strong>Qualification:</strong>
+              {!isEditing ? (
+                <ul className="list">
+                  {qualifications.map((qualification) => (
+                    <li key={qualification.value}>{qualification.label}</li>
+                  ))}
+                </ul>
+              ) : (
+                <div>
+                  <Select
+                    components={animatedComponents}
+                    isMulti
+                    options={qualifications}
+                    value={selectedQualification}
+                    onChange={handleQualificationChange}
+                    styles={customStyles}
+                    placeholder="Qualifications"
+                  />
                 </div>
               )}
             </p>
           </div>
-          {!isEditing && <button onClick={toggleEditing}>Edit</button>}
+          {!isEditing && <button onClick={handleEdit}>Edit</button>}
           {isEditing && (
-            <button onClick={handleSave} className="save">
-              Save
-            </button>
+            <div>
+              <button
+                onClick={handleSave}
+                style={{
+                  backgroundColor: "green",
+                }}
+              >
+                Save
+              </button>
+
+              <button
+                style={{
+                  backgroundColor: "#6c757d",
+                }}
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
           )}
         </div>
       </div>
