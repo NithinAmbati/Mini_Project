@@ -1,0 +1,78 @@
+.user-profile {
+  font-family: Arial, sans-serif;
+  max-width: 60%;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-section p {
+  margin: 8px 0;
+}
+
+.info-section p strong {
+  display: inline-block;
+  width: 120px;
+}
+
+.info-section p a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.info-section p a:hover {
+  text-decoration: underline;
+}
+
+.info-section input[type="text"] {
+  padding: 5px;
+  font-size: 14px;
+  width: 80%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+ul {
+  justify-content: left;
+}
+
+li {
+  display: inline;
+  padding-left: 20px;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+button:focus {
+  outline: none;
+}
+
+.save {
+  background-color: green;
+}
+
+@media (max-width: 520px) {
+  li {
+    display: block;
+  }
+}
