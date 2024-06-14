@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import "./index.css";
-import EmailVerification from "./EmailVerification";
 
 const AddJob = () => {
   const jwtToken = Cookies.get("jwt_token");
@@ -16,8 +15,12 @@ const AddJob = () => {
   const [qualifications, setQualifications] = useState("");
   const [experienceLevel, setExperienceLevel] = useState("");
   const [educationLevel, setEducationLevel] = useState("");
-  const [jobPostingDate, setJobPostingDate] = useState(Date);
-  const [applicationDeadline, setApplicationDeadline] = useState(Date);
+  const [jobPostingDate, setJobPostingDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [applicationDeadline, setApplicationDeadline] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [applicationProcess, setApplicationProcess] = useState("");
   const [jobDuration, setJobDuration] = useState("");
   const [workHours, setWorkHours] = useState("");
@@ -34,7 +37,7 @@ const AddJob = () => {
       mode,
       stipend,
       companyOverview,
-      jobDescription: "dfknk",
+      jobDescription,
       qualifications,
       experienceLevel,
       educationLevel,
@@ -59,6 +62,7 @@ const AddJob = () => {
     if (response.ok) {
       alert("Job Added Successfully!");
       setCompanyName("");
+      setCompanyOverview("");
       setJobLocation("");
       setJobRole("");
       setJobType("");
@@ -67,8 +71,8 @@ const AddJob = () => {
       setQualifications("");
       setExperienceLevel("");
       setEducationLevel("");
-      setJobPostingDate(new Date());
-      setApplicationDeadline(new Date());
+      setJobPostingDate(new Date().toISOString().split("T")[0]);
+      setApplicationDeadline(new Date().toISOString().split("T")[0]);
       setApplicationProcess("");
       setJobDuration("");
       setWorkHours("");
@@ -108,6 +112,14 @@ const AddJob = () => {
                 value={jobRole}
                 onChange={(event) => {
                   setJobRole(event.target.value);
+                }}
+              />
+              <label>Job Description:</label>
+              <input
+                type="text"
+                value={jobDescription}
+                onChange={(event) => {
+                  setJobDescription(event.target.value);
                 }}
               />
               <label>Job Type:</label>

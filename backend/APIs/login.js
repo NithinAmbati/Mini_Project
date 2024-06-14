@@ -10,7 +10,6 @@ router.post("/student", async (req, res) => {
   try {
     // Find user by email and password
     const user = await Student.findOne({ email, password });
-    console.log(user);
     if (!user) {
       res.status(400).send("Login Failure");
       return;

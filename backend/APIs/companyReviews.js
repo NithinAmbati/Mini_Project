@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { companyName, rating } = req.body;
   const company = await CompanyReviews.findOne({ companyName: companyName });
-  console.log(company);
   if (company === null) {
     const newCompany = new CompanyReviews({
       companyName,

@@ -4,22 +4,6 @@ import { useState, useEffect } from "react";
 import JobItem from "../../components/JobItem";
 import { Spin } from "antd";
 import "./index.css";
-import Header from "../../layouts/Header";
-
-const headerContent = [
-  {
-    title: "Home",
-    link: "/",
-  },
-  {
-    title: "Employer Login",
-    link: "/login/employer",
-  },
-  {
-    title: "Candidate Login",
-    link: "/login/student",
-  },
-];
 
 const Home = () => {
   const [jobsList, setJobsList] = useState([]);
@@ -55,7 +39,6 @@ const Home = () => {
 
   return (
     <div className="home-page-bg-container">
-      <Header headerContent={headerContent} />
       <div className="home-page-main-container">
         <div className="home-search-container shadow-md shadow-gray-300">
           <input

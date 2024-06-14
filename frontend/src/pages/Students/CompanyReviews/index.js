@@ -88,7 +88,7 @@ const CompanyReviews = () => {
       <h2 className="mt-3">Popular Companies</h2>
       <div className="company-reviews-container">
         {companiesReviewsList.map((item, index) => (
-          <CompanyReviewItem item={item} index={index} />
+          <CompanyReviewItem item={item} index={index} key={item._id} />
         ))}
       </div>
       <div className="rating-system">

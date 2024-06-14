@@ -16,7 +16,7 @@ const JobPostingHome = () => {
         <button
           className="post-job-button"
           onClick={() => {
-            navigate("/job/posting/post");
+            navigate("/jobs/posting/post");
           }}
         >
           Post a free job*

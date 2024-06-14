@@ -84,8 +84,6 @@ router.post("/", async (req, res) => {
       benefits,
       skills,
     });
-
-    console.log(req.body);
     await newJob.save();
 
     // Update the document by adding the new job to the jobsPosted array
@@ -96,7 +94,6 @@ router.post("/", async (req, res) => {
 
     res.status(200).send("Job Posted successfully");
   } catch (error) {
-    console.error("Internal Server Error:", error);
     res.status(500).send("Internal Server Error");
   }
 });

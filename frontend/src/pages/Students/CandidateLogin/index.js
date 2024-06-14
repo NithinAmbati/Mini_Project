@@ -12,7 +12,7 @@ const Login = () => {
   const onChangePassword = (event) => setPassword(event.target.value);
 
   const loginSuccess = () => {
-    navigate("/");
+    navigate("/student");
     window.location.reload(); // Reload the page
   };
 
@@ -72,7 +72,7 @@ const Login = () => {
           Login
         </button>
         <p>
-          Don't have an account? <a href="/signup/student">Sign Up</a>
+          Don't have an account? <a href="/student/signup">Sign Up</a>
         </p>
       </form>
     </div>

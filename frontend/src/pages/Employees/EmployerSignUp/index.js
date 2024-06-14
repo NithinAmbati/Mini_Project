@@ -25,7 +25,7 @@ const SignUp = () => {
     };
     const response = await fetch(url, options);
     if (response.ok === true) {
-      alert("Registration Successful");
+      alert("Registration Successful , you can now Login");
       setUsername("");
       setPassword("");
       setEmail("");

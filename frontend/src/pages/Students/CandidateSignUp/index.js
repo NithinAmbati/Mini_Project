@@ -25,7 +25,7 @@ const SignUp = () => {
     };
     const response = await fetch(url, options);
     if (response.ok === true) {
-      alert("Registration Successful");
+      alert("Registration Successful Now, you can Login");
       setUsername("");
       setPassword("");
       setEmail("");
@@ -65,7 +65,7 @@ const SignUp = () => {
           Sign Up
         </button>
         <p>
-          Already have an account? <a href="/login/student">Login</a>
+          Already have an account? <a href="/student/login">Login</a>
         </p>
       </form>
     </div>

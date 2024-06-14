@@ -1,29 +1,30 @@
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-const Profile = () => {
+const EmployerProfile = () => {
   const jwtToken = Cookies.get("jwt_token");
   const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    getUserData();
-  }, []);
-
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     const options = {
       method: "GET",
       headers: {
         authorization: `Bearer ${jwtToken}`,
       },
     };
-    const response = await fetch("http://localhost:8000/profile", options);
-    console.log(response);
+    const response = await fetch(
+      "http://localhost:8000/profile/student",
+      options
+    );
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       setUserData(data);
     }
-  };
+  }, [jwtToken]);
+
+  useEffect(() => {
+    getUserData();
+  }, [getUserData]);
 
   return (
     <div className="profile-page-bg-container">
@@ -36,4 +37,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default EmployerProfile;
