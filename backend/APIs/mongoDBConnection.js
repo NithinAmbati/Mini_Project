@@ -47,9 +47,12 @@ const jobSchema = new mongoose.Schema({
   applicationDeadline: { type: Date, required: true },
   applicationProcess: { type: String, required: true },
   jobDuration: { type: String, required: true },
+  numberOfOpenings: { type: String, required: true },
   workHours: { type: String, required: true },
   benefits: { type: String, required: false },
   skillsRequired: { type: String, required: false },
+  postedBy: { type: String, required: false },
+  applications: { type: Array, required: false },
 });
 
 const salarySchema = new mongoose.Schema({

@@ -17,11 +17,17 @@ import Footer from "./layouts/Footer";
 import JobPostingHomePage from "./pages/Employees/JobPostingHomePage";
 import EmployerProfile from "./pages/Employees/Employerprofile";
 import Header from "./layouts/Header";
+import JobsPosted from "./pages/Employees/JobsPosted";
+import ApplicationProcess from "./pages/ApplicationProcess";
 
 const EmployerHeaderContent = [
   {
     title: "Post Job",
     link: "/jobs/posting",
+  },
+  {
+    title: "Jobs Posted",
+    link: "/employer/jobs-posted",
   },
   {
     title: "Company Reviews",
@@ -44,7 +50,7 @@ const StudentHeaderContent = [
   },
   {
     title: "Salary Guide",
-    link: "/salary-guide",
+    link: "/student/salary-guide",
   },
   {
     title: "Profile",
@@ -74,37 +80,22 @@ const headerContent = [
 function App() {
   const location = useLocation();
 
-  const employerRoutes = [
-    "/employer",
-    "/jobs/posting",
-    "/jobs/posting/post",
-    "/employer/profile",
-    "/employer/company-reviews",
-  ];
-
-  const studentRoutes = [
-    "/student",
-    "/student/profile",
-    "/student/salary-guide",
-  ];
-
-  const AuthenticateRoutes = [
+  const isEmployerRoute = location.pathname.startsWith("/employer");
+  const isStudentRoute = location.pathname.startsWith("/student");
+  const isAuthRoute = [
     "/student/login",
     "/student/signup",
     "/employer/login",
     "/employer/signup",
-  ];
-
-  const isEmployerRoute = employerRoutes.includes(location.pathname);
-  const isStudentRoute = studentRoutes.includes(location.pathname);
+  ].includes(location.pathname);
 
   return (
     <div>
       {isEmployerRoute && <Header headerContent={EmployerHeaderContent} />}
       {isStudentRoute && <Header headerContent={StudentHeaderContent} />}
-      {!AuthenticateRoutes.includes(location.pathname) &&
-        !isEmployerRoute &&
-        !isStudentRoute && <Header headerContent={headerContent} />}
+      {!isAuthRoute && !isEmployerRoute && !isStudentRoute && (
+        <Header headerContent={headerContent} />
+      )}
 
       <Routes>
         <Route exact path="/" element={<Home />} />
@@ -115,8 +106,18 @@ function App() {
         <Route exact path="/employer" element={<EmployerHome />} />
         <Route exact path="/student" element={<StudentHome />} />
         <Route exact path="/jobs/:id" element={<DetailedJobDescription />} />
-        <Route exact path="/jobs/posting" element={<JobPostingHomePage />} />
-        <Route exact path="/jobs/posting/post" element={<AddJob />} />
+        <Route
+          exact
+          path="/employer/jobs/posting"
+          element={<JobPostingHomePage />}
+        />
+        <Route exact path="/employer/jobs/posting/post" element={<AddJob />} />
+        <Route exact path="/employer/jobs-posted" element={<JobsPosted />} />
+        <Route
+          exact
+          path="/employer/jobs-posted/:id"
+          element={<ApplicationProcess />}
+        />
         <Route exact path="/employer/profile" element={<EmployerProfile />} />
         <Route exact path="/student/profile" element={<StudentProfile />} />
         <Route exact path="/student/salary-guide" element={<SalaryGuide />} />
@@ -131,7 +132,8 @@ function App() {
           element={<CompanyReviews />}
         />
       </Routes>
-      {!AuthenticateRoutes.includes(location.pathname) && <Footer />}
+
+      {!isAuthRoute && <Footer />}
     </div>
   );
 }

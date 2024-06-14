@@ -1,7 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const { Jobs, Employer } = require("./startMongoose");
+const { Jobs } = require("./startMongoose");
 
 router.get("/", async (req, res) => {
   const authHeader = req.headers["authorization"];
@@ -27,6 +27,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Post JOB
 router.post("/", async (req, res) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader) {
@@ -83,14 +84,15 @@ router.post("/", async (req, res) => {
       workHours,
       benefits,
       skills,
+      postedBy: email,
     });
     await newJob.save();
 
     // Update the document by adding the new job to the jobsPosted array
-    await Employer.updateOne(
-      { email: email },
-      { $push: { jobsPosted: newJob._id } } // Assuming you want to store job IDs in the array
-    );
+    // await Employer.updateOne(
+    //   { email: email },
+    //   { $push: { jobsPosted: newJob._id } } // Assuming you want to store job IDs in the array
+    // );
 
     res.status(200).send("Job Posted successfully");
   } catch (error) {
@@ -103,6 +105,26 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const job = await Jobs.findOne({ _id: id });
   res.status(200).send(job);
+});
+
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+  const jwtToken = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(jwtToken, "Nithin");
+    if (!payload) res.status(401).send("Invalid Access Token");
+    const { email } = payload;
+    await Jobs.updateOne({ _id: id }, { $push: { applications: email } });
+  } catch (error) {
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+  const { email } = payload;
 });
 
 module.exports = router;
