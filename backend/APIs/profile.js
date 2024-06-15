@@ -2,6 +2,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const { Student, Employer } = require("./startMongoose");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
 
 router.get("/student", async (req, res) => {
   const authHeader = req.headers["authorization"];
@@ -11,6 +13,7 @@ router.get("/student", async (req, res) => {
     return;
   }
   const jwtToken = authHeader.split(" ")[1];
+
   try {
     // Verify JWT token
     const payload = await jwt.verify(jwtToken, "Nithin");
@@ -18,6 +21,8 @@ router.get("/student", async (req, res) => {
       res.status(401).send("Invalid Access Token");
       return;
     }
+    // Configure Cloudinary
+
     const { email } = payload;
     const userDetails = await Student.findOne({ email });
     res.status(200).send(userDetails);
@@ -43,6 +48,53 @@ router.get("/employer", async (req, res) => {
     }
     const { email } = payload;
     const userDetails = await Employer.findOne({ email });
+    res.status(200).send(userDetails);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.put("/student", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    console.log("dkjnafak");
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+  const jwtToken = authHeader.split(" ")[1];
+
+  try {
+    // Verify JWT token
+    const payload = await jwt.verify(jwtToken, "Nithin");
+    if (!payload) {
+      res.status(401).send("Invalid Access Token");
+      return;
+    }
+    // Configure Cloudinary
+    const {
+      username,
+      skills,
+      experience,
+      education,
+      address,
+      contact,
+      resume,
+    } = req.body;
+    const { email } = payload;
+    const userDetails = await Student.updateOne(
+      { email },
+      {
+        $set: {
+          username: username,
+          skills: skills,
+          experience: experience,
+          education: education,
+          address,
+          contactNumber: contact,
+          resume,
+        },
+      }
+    );
     res.status(200).send(userDetails);
   } catch (error) {
     res.status(500).send("Internal Server Error");

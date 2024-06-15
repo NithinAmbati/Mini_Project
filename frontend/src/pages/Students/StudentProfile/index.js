@@ -2,12 +2,16 @@ import Cookies from "js-cookie";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 import "./index.css";
 
 const EmployerProfile = () => {
   const jwtToken = Cookies.get("jwt_token");
   const [profile, setProfile] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [resume, setResume] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getUserData = useCallback(async () => {
     const options = {
@@ -23,6 +27,7 @@ const EmployerProfile = () => {
     if (response.ok) {
       const data = await response.json();
       setProfile(data);
+      setSelectedOptions(data.skills || []);
     }
   }, [jwtToken]);
 
@@ -65,132 +70,155 @@ const EmployerProfile = () => {
   const animatedComponents = makeAnimated();
 
   const options = [
-    { value: "C Programming", label: "C Programming" },
-    { value: "C++", label: "C++" },
-    { value: "Java", label: "Java" },
-    { value: "Python", label: "Python" },
-    { value: "JavaScript", label: "JavaScript" },
-    { value: "Ruby", label: "Ruby" },
-  ];
+    "C Programming",
+    "C++",
+    "Java",
+    "Python",
+    "JavaScript",
+    "Ruby",
+  ].map((skill) => ({
+    value: skill,
+    label: skill,
+  }));
 
-  const [skills, setSkills] = useState([
-    { value: "C Programming", label: "C Programming" },
-    { value: "Java", label: "Java" },
-  ]);
-  const [selectedOptions, setSelectedOptions] = useState(skills);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleSave = () => {
-    setSkills(selectedOptions);
-    setIsEditing(false);
-  };
-
-  const handleSaveOptions = () => {
-    setSkills(selectedOptions);
-  };
-
-  const handleCancel = () => {
-    setSelectedOptions(skills);
-    setIsEditing(false);
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      let resumeUrl = profile.resume;
+      if (resume) {
+        const formData = new FormData();
+        formData.append("file", resume);
+        formData.append("upload_preset", "image_preset");
+        formData.append("cloud_name", "dqztnamkx"); // Replace with your Cloudinary upload preset
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dqztnamkx/upload",
+          formData
+        ); // Replace with your Cloudinary URL
+        resumeUrl = response.data.secure_url;
+      }
+      const updatedProfile = {
+        ...profile,
+        skills: selectedOptions,
+        resume: resumeUrl,
+      };
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${jwtToken}`,
+        },
+        body: JSON.stringify(updatedProfile),
+      };
+      const response = await fetch(
+        "http://localhost:8000/profile/student",
+        options
+      );
+      if (response.ok) {
+        setProfile(updatedProfile);
+        setIsEditing(false);
+      } else {
+        console.error("Failed to update profile");
+      }
+    } catch (err) {
+      console.error("Error updating profile:", err);
+    }
+    setLoading(false);
   };
 
   const handleChange = (selected) => {
-    setSelectedOptions(selected || []);
+    setSelectedOptions(selected.map((option) => option.value));
   };
-
-  // username: { type: String, required: true },
-  // password: { type: String, required: true },
-  // email: { type: String, required: true, unique: true },
-  // skills: { type: Array, required: false },
-  // resume: { type: String, required: false },
-  // education: { type: String, required: false },
-  // experience: { type: String, required: false },
-  // Adress: { type: String, required: false },
-  // contactNumber: { type: String, required: false },
-  // qualifications: { type: Array, required: false },
-  // jobsApplied: { type: Array, required: false },
 
   return (
     <div className="profile-page-bg-container">
       <div className="profile-page-container">
         <div className="user-profile">
-          <h2>Candidate Profile</h2>
           <div className="info-section">
-            <p>
+            <h2>Candidate Profile</h2>
+            <div>
               <strong>Username:</strong>{" "}
               {isEditing ? (
                 <input
                   type="text"
                   name="username"
-                  value={profile.username}
+                  value={profile.username || ""}
                   onChange={handleInputChange}
                 />
               ) : (
                 profile.username
               )}
-            </p>
-            <p>
+            </div>
+            <div>
+              <strong>Contact:</strong>{" "}
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="contact"
+                  value={profile.contactNumber || ""}
+                  onChange={handleInputChange}
+                />
+              ) : (
+                profile.contactNumber
+              )}
+            </div>
+            <div>
               <strong>Email:</strong>{" "}
               {isEditing ? (
                 <input
                   type="text"
                   name="email"
-                  value={profile.email}
+                  value={profile.email || ""}
                   onChange={handleInputChange}
                 />
               ) : (
                 profile.email
               )}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Address:</strong>{" "}
               {isEditing ? (
                 <input
                   type="text"
                   name="address"
-                  value={profile.address}
+                  value={profile.address || ""}
                   onChange={handleInputChange}
                 />
               ) : (
                 profile.address
               )}
-            </p>
-
-            <p>
-              <strong>Number:</strong>{" "}
+            </div>
+            <div>
+              <strong>Education:</strong>{" "}
               {isEditing ? (
                 <input
                   type="text"
-                  name="number"
-                  value={profile.number}
+                  name="education"
+                  value={profile.education || ""}
                   onChange={handleInputChange}
                 />
               ) : (
-                profile.number
+                profile.education
               )}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Experience:</strong>{" "}
               {isEditing ? (
                 <input
                   type="text"
                   name="experience"
-                  value={profile.experience}
+                  value={profile.experience || ""}
                   onChange={handleInputChange}
                 />
               ) : (
                 profile.experience
               )}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Skills:</strong>
               {!isEditing ? (
                 <ul className="list">
-                  {skills.map((skill) => (
-                    <li key={skill.value}>{skill.label}</li>
+                  {selectedOptions.map((skill) => (
+                    <li key={skill}>{skill}</li>
                   ))}
                 </ul>
               ) : (
@@ -199,51 +227,60 @@ const EmployerProfile = () => {
                     components={animatedComponents}
                     isMulti
                     options={options}
-                    value={selectedOptions}
+                    value={options.filter((option) =>
+                      selectedOptions.includes(option.value)
+                    )}
                     onChange={handleChange}
                     styles={customStyles}
                     placeholder="Select skills..."
                   />
-                  <div style={{ marginTop: "10px" }}>
-                    <button
-                      style={{
-                        backgroundColor: "#007bff",
-                        color: "white",
-                        border: "none",
-                        padding: "10px",
-                        cursor: "pointer",
-                        borderRadius: "4px",
-                      }}
-                      onClick={handleSaveOptions}
-                    >
-                      Save
-                    </button>
-                    <button
-                      style={{
-                        backgroundColor: "#6c757d",
-                        color: "white",
-                        border: "none",
-                        padding: "10px",
-                        cursor: "pointer",
-                        borderRadius: "4px",
-                        marginLeft: "10px",
-                      }}
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </button>
-                  </div>
                 </div>
               )}
-            </p>
+            </div>
           </div>
-          {!isEditing && <button onClick={toggleEditing}>Edit</button>}
-          {isEditing && (
-            <button onClick={handleSave} className="save">
-              Save
-            </button>
-          )}
+          <div className="resume-section">
+            <div>
+              <strong>Resume:</strong>{" "}
+              {isEditing ? (
+                <input
+                  type="file"
+                  name="resume"
+                  onChange={(e) => {
+                    setResume(e.target.files[0]);
+                  }}
+                />
+              ) : (
+                profile.resume && (
+                  <div>
+                    <a
+                      href={profile.resume}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-primary mb-2 mt-2"
+                    >
+                      Download Resume
+                    </a>
+                    <img
+                      src={profile.resume}
+                      alt="Resume preview"
+                      className="resume-preview"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                        alert("Failed to load the resume preview image.");
+                      }}
+                    />
+                  </div>
+                )
+              )}
+            </div>
+          </div>
         </div>
+        {!isEditing && <button onClick={toggleEditing}>Edit</button>}
+        {isEditing && (
+          <button onClick={handleSave} className="save" disabled={loading}>
+            {loading ? "Saving..." : "Save"}
+          </button>
+        )}
       </div>
     </div>
   );

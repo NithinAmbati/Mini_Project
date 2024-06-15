@@ -2,6 +2,7 @@ import { Spin } from "antd";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 const JobsPosted = () => {
   const navigate = useNavigate();
@@ -33,15 +34,17 @@ const JobsPosted = () => {
   };
 
   return (
-    <div>
-      <h1>JobsPosted</h1>
+    <div className="jobs-posted-container">
+      <h1 className="jobs-posted-header">Jobs Posted</h1>
       {isLoading ? (
-        <Spin />
+        <div className="loading-spinner">
+          <Spin />
+        </div>
       ) : jobsPostedList.length > 0 ? (
         jobsPostedList.map((job) => (
           <div
             key={job._id}
-            className="d-flex justify-center"
+            className="job-item"
             onClick={() => navigate(`/employer/jobs/posted/${job._id}`)}
           >
             <h4>{job._id}</h4>
@@ -50,7 +53,7 @@ const JobsPosted = () => {
           </div>
         ))
       ) : (
-        <h1>Empty</h1>
+        <h1 className="empty-message">No Jobs Posted</h1>
       )}
     </div>
   );
