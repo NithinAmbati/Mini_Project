@@ -67,10 +67,7 @@ const CompanyReviews = () => {
       },
       body: JSON.stringify({ companyName, rating }),
     };
-    await fetch(
-      "https://mini-project-nine-rho.vercel.app/company-reviews",
-      options
-    );
+    await fetch("http://localhost:8000/company-reviews", options);
   };
 
   return (

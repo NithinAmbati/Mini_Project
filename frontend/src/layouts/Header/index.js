@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { IoReorderThreeSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = (props) => {
   const { headerContent } = props;
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -32,6 +35,11 @@ const Header = (props) => {
 
   const handleTradeNameClick = () => {};
 
+  const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/");
+  };
+
   return (
     <header className="header">
       <div className="header-top-section">
@@ -45,25 +53,41 @@ const Header = (props) => {
           </Link>
         </div>{" "}
         <ul className="header-top-list-container">
-          {headerContent.map((item, index) => (
-            <li key={index}>
-              <Link to={item.link} className="text-white">
-                {item.title}
-              </Link>
-            </li>
-          ))}
+          {headerContent.map((item, index) =>
+            item.title === "Logout" ? (
+              <button
+                className="btn btn-light"
+                key={index}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            ) : (
+              <li key={index} className="mt-2">
+                <Link to={item.link} className="text-white">
+                  {item.title}
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </div>
 
       <nav className={`nav bg-light ${sidebarOpen ? "nav--open" : ""}`}>
         <ul>
-          {headerContent.map((item, index) => (
-            <li key={index}>
-              <Link to={item.link} className="text-dark">
-                {item.title}
-              </Link>
-            </li>
-          ))}
+          {headerContent.map((item, index) =>
+            item.title === "Logout" ? (
+              <button className="btn btn-light" key={index}>
+                Logout
+              </button>
+            ) : (
+              <li key={index}>
+                <Link to={item.link} className="text-dark">
+                  {item.title}
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </nav>
       <div className="hamburger" onClick={toggleSidebar}>

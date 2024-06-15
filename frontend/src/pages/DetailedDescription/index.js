@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import "./index.css";
 
 const DetailedJobDescription = () => {
   const { id } = useParams();
@@ -25,6 +26,10 @@ const DetailedJobDescription = () => {
   }, [getData]);
 
   const applyJobBtn = async () => {
+    if (!jwtToken) {
+      alert("Login to Apply jobs");
+      return;
+    }
     const options = {
       method: "PUT",
       headers: {
@@ -37,31 +42,70 @@ const DetailedJobDescription = () => {
       options
     );
     if (!response.ok) {
-      alert("Login to Apply jobs");
-    } else alert("Successfully applied");
+      alert("Failed to apply for the job");
+    } else {
+      alert("Successfully applied");
+    }
   };
 
   return (
-    <div>
-      <h1>{jobDetails.jobRole}</h1>
-      <p>{jobDetails.companyOverview}</p>
-      <p>{jobDetails.jobLocation}</p>
-      <p>{jobDetails.jobMode}</p>
-      <p>{jobDetails.jobType}</p>
-      <p>Stipend: {jobDetails.stipend}</p>
-      <p>{jobDetails.jobDescription}</p>
-      <p>{jobDetails.qualifications}</p>
-      <p>{jobDetails.experienceLevel}</p>
-      <p>{jobDetails.educationLevel}</p>
-      <p>{jobDetails.jobPostingDate}</p>
-      <p>{jobDetails.applicationDeadline}</p>
-      <p>{jobDetails.applicationProcess}</p>
-      <p>No of Openingns: {jobDetails.numberOfOpenings}</p>
-      <p>{jobDetails.jobDuration}</p>
-      <p>{jobDetails.workHours}</p>
-      <p>{jobDetails.benefits}</p>
-      <p>{jobDetails.skills}</p>
-      <button onClick={applyJobBtn}>Apply Now</button>
+    <div className="job-details-container">
+      <h1 className="job-role">{jobDetails.jobRole}</h1>
+      <p className="company-overview">{jobDetails.companyOverview}</p>
+      <div className="job-info">
+        <p>
+          <strong>Location:</strong> {jobDetails.jobLocation}
+        </p>
+        <p>
+          <strong>Mode:</strong> {jobDetails.jobMode}
+        </p>
+        <p>
+          <strong>Type:</strong> {jobDetails.jobType}
+        </p>
+        <p>
+          <strong>Stipend:</strong> {jobDetails.stipend}
+        </p>
+        <p>
+          <strong>Description:</strong> {jobDetails.jobDescription}
+        </p>
+        <p>
+          <strong>Qualifications:</strong> {jobDetails.qualifications}
+        </p>
+        <p>
+          <strong>Experience Level:</strong> {jobDetails.experienceLevel}
+        </p>
+        <p>
+          <strong>Education Level:</strong> {jobDetails.educationLevel}
+        </p>
+        <p>
+          <strong>Posting Date:</strong> {jobDetails.jobPostingDate}
+        </p>
+        <p>
+          <strong>Application Deadline:</strong>{" "}
+          {jobDetails.applicationDeadline}
+        </p>
+        <p>
+          <strong>Application Process:</strong> {jobDetails.applicationProcess}
+        </p>
+        <p>
+          <strong>No. of Openings:</strong> {jobDetails.numberOfOpenings}
+        </p>
+        <p>
+          <strong>Duration:</strong> {jobDetails.jobDuration}
+        </p>
+        <p>
+          <strong>Work Hours:</strong> {jobDetails.workHours}
+        </p>
+        <p>
+          <strong>Benefits:</strong> {jobDetails.benefits}
+        </p>
+        <p>
+          <strong>Skills:</strong> {jobDetails.skills}
+        </p>
+      </div>
+      <button className="apply-button" onClick={applyJobBtn}>
+        Apply Now
+      </button>
     </div>
   );
 };

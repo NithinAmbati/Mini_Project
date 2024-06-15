@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 import "./index.css";
 
 const AddJob = () => {
@@ -83,9 +84,13 @@ const AddJob = () => {
     }
   };
 
+  console.log(jwtToken);
+
+  if (jwtToken === undefined) {
+    return <Navigate to="/some-path" />;
+  }
   return (
     <div className="addjob-page-bg-container">
-      {/* <EmailVerification /> */}
       <div className="addjob-page-container">
         <form className="form-container" onSubmit={addJobBtn}>
           <div className="form-sub-container">

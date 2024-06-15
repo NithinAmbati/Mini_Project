@@ -4,21 +4,7 @@ const router = express.Router();
 const { Jobs } = require("./startMongoose");
 
 router.get("/", async (req, res) => {
-  const authHeader = req.headers["authorization"];
-  if (!authHeader) {
-    res.status(401).send("Invalid Access Token");
-    return;
-  }
-  const jwtToken = authHeader.split(" ")[1];
-
   try {
-    // Verify JWT token
-    const payload = jwt.verify(jwtToken, "Nithin");
-    if (!payload) {
-      res.status(401).send("Invalid Access Token");
-      return;
-    }
-
     // Query job listings
     const jobListings = await Jobs.find(); // Replace with actual query to MongoDB
     res.status(200).send(jobListings);

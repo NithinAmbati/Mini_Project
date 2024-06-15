@@ -1,7 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const { Jobs } = require("./startMongoose");
+const { Jobs, Student } = require("./startMongoose");
 
 router.get("/", async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -36,9 +36,21 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const job = await Jobs.findOne({ _id: id });
-  res.status(200).send(job.applications);
+  try {
+    const { id } = req.params;
+    const job = await Jobs.findOne({ _id: id });
+
+    if (!job) {
+      return res.status(404).send({ message: "Job not found" });
+    }
+
+    const data = await Student.find({ email: { $in: job.applications } });
+
+    res.status(200).send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error" });
+  }
 });
 
 module.exports = router;
