@@ -18,16 +18,16 @@ import JobPostingHomePage from "./pages/Employees/JobPostingHomePage";
 import EmployerProfile from "./pages/Employees/Employerprofile";
 import Header from "./layouts/Header";
 import JobsPosted from "./pages/Employees/JobsPosted";
-import ApplicationProcess from "./pages/ApplicationProcess";
+import Applications from "./pages/Applications";
 
 const EmployerHeaderContent = [
   {
     title: "Post Job",
-    link: "/jobs/posting",
+    link: "/employer/jobs/posting",
   },
   {
     title: "Jobs Posted",
-    link: "/employer/jobs-posted",
+    link: "/employer/jobs/posted",
   },
   {
     title: "Company Reviews",
@@ -91,8 +91,12 @@ function App() {
 
   return (
     <div>
-      {isEmployerRoute && <Header headerContent={EmployerHeaderContent} />}
-      {isStudentRoute && <Header headerContent={StudentHeaderContent} />}
+      {isEmployerRoute && !isAuthRoute && (
+        <Header headerContent={EmployerHeaderContent} />
+      )}
+      {isStudentRoute && !isAuthRoute && (
+        <Header headerContent={StudentHeaderContent} />
+      )}
       {!isAuthRoute && !isEmployerRoute && !isStudentRoute && (
         <Header headerContent={headerContent} />
       )}
@@ -112,11 +116,11 @@ function App() {
           element={<JobPostingHomePage />}
         />
         <Route exact path="/employer/jobs/posting/post" element={<AddJob />} />
-        <Route exact path="/employer/jobs-posted" element={<JobsPosted />} />
+        <Route exact path="/employer/jobs/posted" element={<JobsPosted />} />
         <Route
           exact
-          path="/employer/jobs-posted/:id"
-          element={<ApplicationProcess />}
+          path="/employer/jobs/posted/:id"
+          element={<Applications />}
         />
         <Route exact path="/employer/profile" element={<EmployerProfile />} />
         <Route exact path="/student/profile" element={<StudentProfile />} />

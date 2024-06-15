@@ -21,7 +21,7 @@ const JobsPosted = () => {
       },
     };
     const response = await fetch(
-      "http://localhost:8000/employer/jobs-posted/",
+      "http://localhost:8000/employer/jobs/posted/",
       options
     );
     if (response.ok) {
@@ -42,7 +42,7 @@ const JobsPosted = () => {
           <div
             key={job._id}
             className="d-flex justify-center"
-            onClick={() => navigate(`/employer/jobs-posted/${job._id}`)}
+            onClick={() => navigate(`/employer/jobs/posted/${job._id}`)}
           >
             <h4>{job._id}</h4>
             <h2>{job.jobRole}</h2>

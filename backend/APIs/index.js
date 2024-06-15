@@ -19,6 +19,6 @@ router.use("/salary-guide", salaryGuideRouter);
 router.use("/jobs", jobsRouter);
 router.use("/otp", OtpRouter);
 router.use("/profile", profileRouter);
-router.use("/employer/jobs-posted", jobsPostedRouter);
+router.use("/employer/jobs/posted", jobsPostedRouter);
 
 module.exports = router;

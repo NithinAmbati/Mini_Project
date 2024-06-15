@@ -1,7 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const { Employer, Jobs } = require("./startMongoose");
+const { Jobs } = require("./startMongoose");
 
 router.get("/", async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -33,6 +33,12 @@ router.get("/", async (req, res) => {
     console.error(error);
     return res.status(401).send("Invalid access token");
   }
+});
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const job = await Jobs.findOne({ _id: id });
+  res.status(200).send(job.applications);
 });
 
 module.exports = router;

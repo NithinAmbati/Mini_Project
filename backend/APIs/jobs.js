@@ -127,4 +127,24 @@ router.put("/:id", async (req, res) => {
   const { email } = payload;
 });
 
+router.put("/apply/:id", async (req, res) => {
+  const { id } = req.params;
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+  const jwtToken = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(jwtToken, "Nithin");
+    if (!payload) res.status(401).send("Invalid Access Token");
+    const { email } = payload;
+    await Jobs.updateOne({ _id: id }, { $push: { applications: email } });
+    res.status(200).send("Applied successfully");
+  } catch (error) {
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+});
+
 module.exports = router;

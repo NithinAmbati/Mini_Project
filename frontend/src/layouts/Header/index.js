@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { IoReorderThreeSharp } from "react-icons/io5";
-
+import { Link } from "react-router-dom";
 import "./index.css";
 
 const Header = (props) => {
@@ -17,7 +17,7 @@ const Header = (props) => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event) => {
       if (!(event.target instanceof HTMLElement)) return;
       if (!event.target.closest(".header") && sidebarOpen) {
         closeSidebar();
@@ -36,20 +36,20 @@ const Header = (props) => {
     <header className="header">
       <div className="header-top-section">
         <div className="logo">
-          <a
+          <Link
             onClick={handleTradeNameClick}
             className="pointer text-white"
-            href="/"
+            to="/"
           >
             JOBBY
-          </a>
+          </Link>
         </div>{" "}
         <ul className="header-top-list-container">
           {headerContent.map((item, index) => (
             <li key={index}>
-              <a href={item.link} className="text-white">
+              <Link to={item.link} className="text-white">
                 {item.title}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -59,9 +59,9 @@ const Header = (props) => {
         <ul>
           {headerContent.map((item, index) => (
             <li key={index}>
-              <a href={item.link} className="text-dark">
+              <Link to={item.link} className="text-dark">
                 {item.title}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
