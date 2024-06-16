@@ -79,6 +79,17 @@ const AddJob = () => {
       setWorkHours("");
       setBenefits("");
       setSkills("");
+      await fetch("http://localhost:8000/send-mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jobRole,
+          jobLocation,
+          companyName,
+        }),
+      });
     } else {
       alert("Failed to add job. Please try again.");
     }
@@ -87,7 +98,7 @@ const AddJob = () => {
   console.log(jwtToken);
 
   if (jwtToken === undefined) {
-    return <Navigate to="/some-path" />;
+    return <Navigate to="/employer/login" />;
   }
   return (
     <div className="addjob-page-bg-container">
@@ -165,14 +176,6 @@ const AddJob = () => {
                 value={qualifications}
                 onChange={(event) => {
                   setQualifications(event.target.value);
-                }}
-              />
-              <label>Company Name:</label>
-              <input
-                type="text"
-                value={companyName}
-                onChange={(event) => {
-                  setCompanyName(event.target.value);
                 }}
               />
             </div>

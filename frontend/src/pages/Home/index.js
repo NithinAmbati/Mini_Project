@@ -2,9 +2,11 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import JobItem from "../../components/JobItem";
 import { Spin } from "antd";
+import { Navigate } from "react-router-dom";
 import "./index.css";
 
 const Home = () => {
+  const jwtToken = Cookies.get("jwt_token");
   const [jobsList, setJobsList] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -32,6 +34,10 @@ const Home = () => {
     }
   };
 
+  // if (jwtToken !== undefined) {
+  //   return <Navigate to="/" />;
+  // }
+
   return (
     <div className="home-page-bg-container">
       <div className="home-page-main-container">
@@ -48,7 +54,7 @@ const Home = () => {
           For better UserExperience
         </p>
         <p className="text-blue-800 font-bold self-center mt-[-5px]">
-          Post a Job on Jobby
+          Post a Job on CAREERCONNECT
         </p>
         <hr className="self-center w-75" />
         <h1 className="self-center">Jobs</h1>

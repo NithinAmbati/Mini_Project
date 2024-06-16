@@ -7,7 +7,7 @@ import "./index.css";
 import { useNavigate } from "react-router-dom";
 
 const Header = (props) => {
-  const { headerContent } = props;
+  const { headerContent, headingLink } = props;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const Header = (props) => {
   const handleTradeNameClick = () => {};
 
   const handleLogout = () => {
-    Cookies.remove("token");
+    Cookies.remove("jwt_token");
     navigate("/");
   };
 
@@ -47,9 +47,12 @@ const Header = (props) => {
           <Link
             onClick={handleTradeNameClick}
             className="pointer text-white"
-            to="/"
+            to={headingLink}
           >
-            JOBBY
+            <strong>CAREERCONNECT</strong>
+            <p className="text-xs relative left-[100px]">
+              Find your best Employee
+            </p>
           </Link>
         </div>{" "}
         <ul className="header-top-list-container">
@@ -63,7 +66,7 @@ const Header = (props) => {
                 Logout
               </button>
             ) : (
-              <li key={index} className="mt-2">
+              <li key={index} className="mt-3 mx-4">
                 <Link to={item.link} className="text-white">
                   {item.title}
                 </Link>
@@ -77,7 +80,11 @@ const Header = (props) => {
         <ul>
           {headerContent.map((item, index) =>
             item.title === "Logout" ? (
-              <button className="btn btn-light" key={index}>
+              <button
+                className="btn btn-light"
+                key={index}
+                onClick={handleLogout}
+              >
                 Logout
               </button>
             ) : (

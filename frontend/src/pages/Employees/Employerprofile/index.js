@@ -1,9 +1,12 @@
 import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
+import "./index.css";
 
 const EmployerProfile = () => {
   const jwtToken = Cookies.get("jwt_token");
   const [userData, setUserData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
 
   const getUserData = useCallback(async () => {
     const options = {
@@ -26,11 +29,27 @@ const EmployerProfile = () => {
     getUserData();
   }, [getUserData]);
 
+  if (jwtToken === undefined) {
+    return <Navigate to="/employer/login" />;
+  }
+
   return (
     <div className="profile-page-bg-container">
       <div className="profile-page-container">
         <div>
-          <h1>{userData.username}</h1>
+          <h2>Employer Profile</h2>
+          <div>
+            <strong>Username:</strong> {userData.username}
+          </div>
+          <div>
+            <strong>Email:</strong> {userData.email}
+          </div>
+          <div>
+            <strong>Company Name:</strong> {userData.companyName}
+          </div>
+          <div>
+            <strong>Current JobRole :</strong> {userData.currentJobRole}
+          </div>
         </div>
       </div>
     </div>

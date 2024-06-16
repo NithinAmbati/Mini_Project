@@ -34,7 +34,7 @@ const EmployerHome = () => {
   };
   const jwtToken = Cookies.get("jwt_token");
   if (jwtToken === undefined) {
-    return <Navigate to="/some-path" />;
+    return <Navigate to="/employer/login" />;
   }
 
   return (

@@ -19,6 +19,8 @@ import EmployerProfile from "./pages/Employees/Employerprofile";
 import Header from "./layouts/Header";
 import JobsPosted from "./pages/Employees/JobsPosted";
 import Applications from "./pages/Applications";
+import NotFound from "./pages/NotFound";
+import { Navigate } from "react-router-dom";
 
 const EmployerHeaderContent = [
   {
@@ -87,18 +89,19 @@ function App() {
     "/student/signup",
     "/employer/login",
     "/employer/signup",
+    "/not-found",
   ].includes(location.pathname);
 
   return (
     <div>
       {isEmployerRoute && !isAuthRoute && (
-        <Header headerContent={EmployerHeaderContent} />
+        <Header headerContent={EmployerHeaderContent} headingLink="/employer" />
       )}
       {isStudentRoute && !isAuthRoute && (
-        <Header headerContent={StudentHeaderContent} />
+        <Header headerContent={StudentHeaderContent} headingLink="/student" />
       )}
       {!isAuthRoute && !isEmployerRoute && !isStudentRoute && (
-        <Header headerContent={headerContent} />
+        <Header headerContent={headerContent} headingLink="/" />
       )}
 
       <Routes>
@@ -109,7 +112,11 @@ function App() {
         <Route exact path="/employer/signup" element={<EmployerSignUp />} />
         <Route exact path="/employer" element={<EmployerHome />} />
         <Route exact path="/student" element={<StudentHome />} />
-        <Route exact path="/jobs/:id" element={<DetailedJobDescription />} />
+        <Route
+          exact
+          path="/student/jobs/:id"
+          element={<DetailedJobDescription />}
+        />
         <Route
           exact
           path="/employer/jobs/posting"
@@ -135,6 +142,8 @@ function App() {
           path="/employer/company-reviews"
           element={<CompanyReviews />}
         />
+        <Route path="/not-found" Component={NotFound} />
+        <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
 
       {!isAuthRoute && <Footer />}

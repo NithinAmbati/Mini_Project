@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import "./index.css";
 
 const JobsPosted = () => {
@@ -29,9 +29,12 @@ const JobsPosted = () => {
       const data = await response.json();
       setJobsPostedList(data);
       setLoading(false);
-      console.log(data);
     }
   };
+
+  if (jwtToken === undefined) {
+    return <Navigate to="/employer/login" />;
+  }
 
   return (
     <div className="jobs-posted-container">

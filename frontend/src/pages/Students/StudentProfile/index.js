@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useEffect, useState, useCallback } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import "./index.css";
 
@@ -128,6 +129,10 @@ const EmployerProfile = () => {
   const handleChange = (selected) => {
     setSelectedOptions(selected.map((option) => option.value));
   };
+
+  if (jwtToken === undefined) {
+    return <Navigate to="/student/login" />;
+  }
 
   return (
     <div className="profile-page-bg-container">

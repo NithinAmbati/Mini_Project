@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 import "./index.css";
 
 const SalaryGuide = () => {
+  const jwtToken = Cookies.get("jwt_token");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -19,11 +22,13 @@ const SalaryGuide = () => {
     }
   };
 
-  console.log(data);
+  if (jwtToken === undefined) {
+    return <Navigate to="/student/login" />;
+  }
 
   return (
     <>
-      <div className="salary-page-top-container bg-gray-950 text-white p-5">
+      <div className="salary-page-top-container bg-blue-950 text-white p-5">
         <h3 className="font-bold">Find a Career You'll Love</h3>
         <p>
           Explore which careers have the highest job satisfaction, best salaries
@@ -43,7 +48,7 @@ const SalaryGuide = () => {
         <div className="salaries-list-container">
           {data.map((item) => (
             <div className="salary-item">
-              <h4 className="text-lg font-bold">{item.job_role}</h4>
+              <h4 className="text-lg font-bold">{item.jobRole}</h4>
               <p className="font-bold text-blue-800 text-md">
                 Avg Salary Rs.{item.salary} {"  "} per year
               </p>

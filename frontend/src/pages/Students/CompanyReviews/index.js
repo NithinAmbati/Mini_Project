@@ -2,6 +2,8 @@ import "./index.css";
 import { useState, useEffect } from "react";
 import { RiStarSFill } from "react-icons/ri";
 import SubmitFeedback from "./SubmitFeedback";
+import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
 const CompanyReviewItem = ({ item, index }) => {
   return (
@@ -36,6 +38,7 @@ const CompanyReviewItem = ({ item, index }) => {
 };
 
 const CompanyReviews = () => {
+  const jwtToken = Cookies.get("jwt_token");
   const [companiesReviewsList, setCompaniesReviewsList] = useState([]);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -70,19 +73,28 @@ const CompanyReviews = () => {
     await fetch("http://localhost:8000/company-reviews", options);
   };
 
+  if (jwtToken === undefined) {
+    return <Navigate to="/student/login" />;
+  }
+
   return (
     <div className="company-reviews-page-container">
-      <h1>Find great places to work</h1>
-      <h5 className="mt-3">Get access to millions of company reviews</h5>
-      <label className="mt-3 mb-2">Company name</label>
-      <div className="company-reviews-search-container">
-        <input type="search" className="company-reviews-search" />
-        <button className="btn btn-primary">Find Companies</button>
+      <h1 className="text-center">Find great places to work</h1>
+      <h5 className="mt-3 text-center">
+        Get access to millions of company reviews
+      </h5>
+      <div>
+        <div className="company-reviews-search-container">
+          <input type="search" className="company-reviews-search" />
+          <button className="btn btn-primary">Find Companies</button>
+        </div>
+        <a
+          href="/salary-guide"
+          className="underline text-blue-400 relative bottom-5"
+        >
+          Do you want to search for salaries?
+        </a>
       </div>
-      <a href="/salary-guide" className="underline text-blue-400">
-        Do you want to search for salaries?
-      </a>
-      <h2 className="mt-3">Popular Companies</h2>
       <div className="company-reviews-container">
         {companiesReviewsList.map((item, index) => (
           <CompanyReviewItem item={item} index={index} key={item._id} />

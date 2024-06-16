@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams, Navigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import "./index.css";
 
@@ -10,11 +10,7 @@ const Applications = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedResume, setSelectedResume] = useState("");
 
-  useEffect(() => {
-    getApplicationsList();
-  }, []);
-
-  const getApplicationsList = async () => {
+  const getApplicationsList = useCallback(async () => {
     const options = {
       method: "GET",
       headers: {
@@ -28,7 +24,11 @@ const Applications = () => {
     );
     const applications = await response.json();
     setApplicationsList(applications);
-  };
+  });
+
+  useEffect(() => {
+    getApplicationsList();
+  }, [getApplicationsList]);
 
   const handleViewResume = (resume) => {
     setSelectedResume(resume);
@@ -40,8 +40,12 @@ const Applications = () => {
     setSelectedResume("");
   };
 
+  if (jwtToken === undefined) {
+    return <Navigate to="/employer/login" />;
+  }
+
   return (
-    <div>
+    <div className="applications-bg-container">
       <h1>Applications</h1>
       {applicationsList.length > 0 ? (
         <table className="applications-table">

@@ -1,36 +1,50 @@
 .company-reviews-page-container {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .company-reviews-search-container {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .company-reviews-search {
-  width: 80%;
-  border: 1px solid black;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   margin-right: 10px;
-  border-radius: 4px;
 }
 
 .company-reviews-search-container button {
   height: 60px;
+  width: fit-content;
 }
 
 .company-reviews-container {
   display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  width: fit-content;
   justify-content: center;
 }
 
 .company-reviews-item {
-  margin: 10px;
+  background: #fff;
   border-radius: 10px;
-  padding: 15px;
-  width: 250px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
   margin: 10px;
-  box-shadow: 1px 1px 1px 1px gray;
+  width: 300px;
+  box-sizing: border-box;
+  transition: transform 0.2s ease-in-out;
+}
+
+.company-reviews-item:hover {
+  transform: scale(1.05);
 }
 
 .reviews-container {
@@ -57,33 +71,36 @@
   height: 25px;
 }
 
+/* Rating System Styles */
 .rating-system {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(220, 246, 220);
-  margin-top: 50px;
-  padding: 10px;
-}
-
-.rating-system div {
-  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 30px;
+  text-align: center;
 }
 
 .star-rating {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .star {
-  font-size: 2rem;
-  color: lightgray;
   cursor: pointer;
-  transition: color 0.2s;
+  font-size: 2rem;
+  color: #ddd;
+  transition: color 0.2s ease-in-out;
 }
 
 .star.selected {
-  color: gold;
+  color: #ffd700;
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 @media (min-width: 800px) {

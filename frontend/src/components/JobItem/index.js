@@ -1,7 +1,13 @@
 import "bootstrap/dist/css/bootstrap.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./index.css";
 
 const JobItem = (props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const jwtToken = Cookies.get("jwt_token");
+
   const { item } = props;
   const {
     _id,
@@ -11,40 +17,54 @@ const JobItem = (props) => {
     jobType,
     mode,
     stipend,
-    companyOverview,
-    jobDescription,
-    qualifications,
-    experienceLevel,
-    educationLevel,
     jobPostingDate,
     applicationDeadline,
-    applicationProcess,
     jobDuration,
     workHours,
-    benefits = [],
-    skills = [],
   } = item || {};
+
+  const handleShowJobDetails = () => {
+    if (!jwtToken) {
+      navigate("/student/login");
+    }
+    if (location.pathname.includes("/student"))
+      navigate(`/student/jobs/${_id}`);
+  };
+
+  function daysAgo(dateString) {
+    const today = new Date();
+    const jobDate = new Date(dateString);
+    const diffTime = Math.abs(today - jobDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }
+
   return (
-    <a
-      href={`/jobs/${_id}`}
+    <div
       className="job-item p-4 m-3 shadow-sm shadow-gray-400"
+      onClick={handleShowJobDetails}
     >
       <div className="space-y-1">
-        <h4>{jobRole}</h4>
-        <p>{companyName}</p>
-        <p>{jobLocation}</p>
+        <div className="flex justify-between">
+          <strong>{jobRole} </strong>
+          <p>{daysAgo(jobPostingDate)} days ago</p>
+        </div>
+        <div>
+          <strong> {companyName} </strong>
+        </div>
+        <p> {jobLocation}</p>
         <div className="flex">
           <p className="bg-gray-300 px-2 py-1 rounded-sm mx-2">{stipend}</p>
-        </div>
-        <div className="flex">
           <p className="bg-gray-300 px-2 py-1 rounded-sm mx-2">{mode}</p>
           <p className="bg-gray-300 px-2 py-1 rounded-sm">{jobType}</p>
         </div>
+        <p>Duration: {jobDuration}</p>
+        <p> Working Hours: {workHours}</p>
         <p>
-          <span className="font-bold">Description : </span> {jobDuration}
+          <strong>Deadline: </strong> {applicationDeadline}
         </p>
       </div>
-    </a>
+    </div>
   );
 };
 

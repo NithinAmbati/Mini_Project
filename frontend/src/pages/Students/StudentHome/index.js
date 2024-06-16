@@ -6,6 +6,7 @@ import { Spin } from "antd";
 import "./index.css";
 
 const StudentHome = () => {
+  const jwtToken = Cookies.get("jwt_token");
   const [jobsList, setJobsList] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -15,7 +16,6 @@ const StudentHome = () => {
 
   const getJobsList = async () => {
     const apiUrl = `http://localhost:8000/jobs`;
-    const jwtToken = Cookies.get("jwt_token");
     const options = {
       method: "GET",
       headers: {
@@ -32,9 +32,8 @@ const StudentHome = () => {
       setLoading(false);
     }
   };
-  const jwtToken = Cookies.get("jwt_token");
   if (jwtToken === undefined) {
-    return <Navigate to="/some-path" />;
+    return <Navigate to="/student/login" />;
   }
 
   return (
