@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { RiStarSFill } from "react-icons/ri";
 import SubmitFeedback from "./SubmitFeedback";
 import Cookies from "js-cookie";
+import { Spin } from "antd";
 import { Navigate } from "react-router-dom";
 
 const CompanyReviewItem = ({ item, index }) => {
@@ -42,6 +43,7 @@ const CompanyReviews = () => {
   const [companiesReviewsList, setCompaniesReviewsList] = useState([]);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getCompaniesReviewsList();
@@ -99,9 +101,13 @@ const CompanyReviews = () => {
         </a>
       </div>
       <div className="company-reviews-container">
-        {companiesReviewsList.map((item, index) => (
-          <CompanyReviewItem item={item} index={index} key={item._id} />
-        ))}
+        {isLoading ? (
+          <Spin size="large" />
+        ) : (
+          companiesReviewsList.map((item, index) => (
+            <CompanyReviewItem key={index} item={item} index={index} />
+          ))
+        )}
       </div>
       <div className="rating-system">
         <h3 className="font-bold">Rate your recent Employer: </h3>
