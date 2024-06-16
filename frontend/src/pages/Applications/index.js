@@ -19,7 +19,7 @@ const Applications = () => {
       },
     };
     const response = await fetch(
-      `http://localhost:8000/employer/jobs/posted/${id}`,
+      `https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/employer/jobs/posted/${id}`,
       options
     );
     const applications = await response.json();

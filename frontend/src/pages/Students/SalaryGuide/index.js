@@ -15,7 +15,10 @@ const SalaryGuide = () => {
     const options = {
       method: "GET",
     };
-    const response = await fetch("http://localhost:8000/salary-guide", options);
+    const response = await fetch(
+      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/salary-guide",
+      options
+    );
     if (response.ok) {
       const data = await response.json();
       setData(data);

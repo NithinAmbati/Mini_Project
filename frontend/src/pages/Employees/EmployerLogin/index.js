@@ -24,7 +24,8 @@ const Login = () => {
     event.preventDefault();
     const userDetails = { email, password };
     console.log(userDetails);
-    const url = "http://localhost:8000/login/employer";
+    const url =
+      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/login/employer";
     const options = {
       method: "POST",
       headers: {

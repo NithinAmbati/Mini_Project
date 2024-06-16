@@ -15,7 +15,7 @@ const StudentHome = () => {
   }, []);
 
   const getJobsList = async () => {
-    const apiUrl = `http://localhost:8000/jobs`;
+    const apiUrl = `https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/jobs`;
     const options = {
       method: "GET",
       headers: {

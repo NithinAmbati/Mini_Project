@@ -22,7 +22,7 @@ const EmployerProfile = () => {
       },
     };
     const response = await fetch(
-      "http://localhost:8000/profile/student",
+      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/profile/student",
       options
     );
     if (response.ok) {
@@ -111,7 +111,7 @@ const EmployerProfile = () => {
         body: JSON.stringify(updatedProfile),
       };
       const response = await fetch(
-        "http://localhost:8000/profile/student",
+        "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/profile/student",
         options
       );
       if (response.ok) {

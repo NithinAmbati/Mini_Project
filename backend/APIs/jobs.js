@@ -6,7 +6,7 @@ const { Jobs } = require("./startMongoose");
 router.get("/", async (req, res) => {
   try {
     // Query job listings
-    const jobListings = await Jobs.find(); // Replace with actual query to MongoDB
+    const jobListings = await Jobs.find();
     res.status(200).send(jobListings);
   } catch (error) {
     res.status(500).send("Internal Server Error");

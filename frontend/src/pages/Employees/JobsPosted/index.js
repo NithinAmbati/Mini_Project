@@ -22,7 +22,7 @@ const JobsPosted = () => {
       },
     };
     const response = await fetch(
-      "http://localhost:8000/employer/jobs/posted/",
+      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/employer/jobs/posted/",
       options
     );
     if (response.ok) {

@@ -1,12 +1,9 @@
-import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import JobItem from "../../components/JobItem";
 import { Spin } from "antd";
-import { Navigate } from "react-router-dom";
 import "./index.css";
 
 const Home = () => {
-  const jwtToken = Cookies.get("jwt_token");
   const [jobsList, setJobsList] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -15,13 +12,11 @@ const Home = () => {
   }, []);
 
   const getJobsList = async () => {
-    const apiUrl = `http://localhost:8000/jobs`;
-    const jwtToken = Cookies.get("jwt_token");
+    const apiUrl = `https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/jobs`;
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${jwtToken}`,
       },
     };
 
@@ -33,10 +28,6 @@ const Home = () => {
       setLoading(false);
     }
   };
-
-  // if (jwtToken !== undefined) {
-  //   return <Navigate to="/" />;
-  // }
 
   return (
     <div className="home-page-bg-container">

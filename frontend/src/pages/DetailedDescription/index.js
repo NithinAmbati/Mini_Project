@@ -10,7 +10,9 @@ const DetailedJobDescription = () => {
 
   const getData = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/jobs/${id}`);
+      const response = await fetch(
+        `https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/jobs/${id}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch job details");
       }

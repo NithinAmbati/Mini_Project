@@ -52,7 +52,7 @@ const CompanyReviews = () => {
       method: "GET",
     };
     const response = await fetch(
-      "http://localhost:8000/company-reviews",
+      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/company-reviews",
       options
     );
     if (response.ok) {
@@ -70,7 +70,10 @@ const CompanyReviews = () => {
       },
       body: JSON.stringify({ companyName, rating }),
     };
-    await fetch("http://localhost:8000/company-reviews", options);
+    await fetch(
+      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/company-reviews",
+      options
+    );
   };
 
   if (jwtToken === undefined) {
