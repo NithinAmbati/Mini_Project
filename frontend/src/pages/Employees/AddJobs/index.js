@@ -60,7 +60,7 @@ const AddJob = () => {
       body: JSON.stringify(jobDetails),
     };
     const response = await fetch(
-      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/jobs",
+      "https://careerconnect-apis.vercel.app//jobs",
       options
     );
     if (response.ok) {
@@ -82,20 +82,17 @@ const AddJob = () => {
       setWorkHours("");
       setBenefits("");
       setSkills("");
-      await fetch(
-        "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/send-mail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            jobRole,
-            jobLocation,
-            companyName,
-          }),
-        }
-      );
+      await fetch("https://careerconnect-apis.vercel.app/send-mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jobRole,
+          jobLocation,
+          companyName,
+        }),
+      });
     } else {
       alert("Failed to add job. Please try again.");
     }

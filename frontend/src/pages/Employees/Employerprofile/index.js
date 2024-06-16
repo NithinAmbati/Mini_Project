@@ -16,7 +16,7 @@ const EmployerProfile = () => {
       },
     };
     const response = await fetch(
-      "https://careerconnect-apis-cqaklzs35-nithin-ambatis-projects.vercel.app/profile/employer",
+      "https://careerconnect-apis.vercel.app/profile/employer",
       options
     );
     if (response.ok) {
