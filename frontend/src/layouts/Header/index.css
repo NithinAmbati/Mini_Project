@@ -31,6 +31,12 @@
 .header-top-list-container li {
   margin-left: 10px;
   margin-right: 10px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+button {
+  width: fit-content;
 }
 
 .logo {
@@ -58,7 +64,7 @@
   z-index: 1001;
   margin-top: auto;
   margin-bottom: auto;
-  margin-right: 23px;
+  margin-right: 25px;
   scale: 1.4;
 }
 

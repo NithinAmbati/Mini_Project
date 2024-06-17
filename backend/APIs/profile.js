@@ -101,4 +101,39 @@ router.put("/student", async (req, res) => {
   }
 });
 
+router.put("/employer", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+  const jwtToken = authHeader.split(" ")[1];
+
+  try {
+    // Verify JWT token
+    const payload = await jwt.verify(jwtToken, "Nithin");
+    if (!payload) {
+      res.status(401).send("Invalid Access Token");
+      return;
+    }
+    // Configure Cloudinary
+    const { username, companyName, currentJobRole, companyLocation } = req.body;
+    const { email } = payload;
+    const userDetails = await Employer.updateOne(
+      { email },
+      {
+        $set: {
+          username,
+          companyName,
+          currentJobRole,
+          companyLocation,
+        },
+      }
+    );
+    res.status(200).send(userDetails);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 module.exports = router;

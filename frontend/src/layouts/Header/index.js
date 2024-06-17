@@ -50,7 +50,7 @@ const Header = (props) => {
             to={headingLink}
           >
             <strong>CAREERCONNECT</strong>
-            <p className="text-xs relative left-[100px]">
+            <p className="text-xs relative left-[70px]">
               Find your best Employee
             </p>
           </Link>
