@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
 .home-page-bg-container {
   display: flex;
   flex-direction: column;
@@ -12,16 +18,9 @@
 
 .home-search-container {
   display: flex;
-  height: 60px;
-  width: 100%;
-  justify-content: center;
-  align-self: center;
-  margin-top: 30px;
-}
-
-.home-search-container button {
-  width: 170px;
-  margin-left: 10px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .jobs-list-container {
@@ -34,10 +33,13 @@
 
 @media (min-width: 600px) {
   .home-search-container {
-    width: 80%;
+    width: 100%;
   }
   .home-search-container button {
     width: 250px;
+    height: 60px;
+    margin-bottom: 20px;
+    margin-left: 10px;
   }
 }
 
@@ -45,10 +47,10 @@
   .home-search-container {
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 100%;
   }
 
-  .home-search-container button {
+  /* .home-search-container button {
     width: 270px;
-  }
+  } */
 }

@@ -54,7 +54,7 @@ const Header = (props) => {
               Find your best Employee
             </p>
           </Link>
-        </div>{" "}
+        </div>
         <ul className="header-top-list-container">
           {headerContent.map((item, index) =>
             item.title === "Logout" ? (
@@ -68,7 +68,7 @@ const Header = (props) => {
             ) : (
               <li key={index} className="mt-3 mx-4">
                 <Link to={item.link} className="text-white">
-                  {item.title}
+                  <strong>{item.title}</strong>
                 </Link>
               </li>
             )
@@ -83,13 +83,20 @@ const Header = (props) => {
               <button
                 className="btn btn-light"
                 key={index}
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  closeSidebar();
+                }}
               >
                 Logout
               </button>
             ) : (
               <li key={index}>
-                <Link to={item.link} className="text-dark">
+                <Link
+                  to={item.link}
+                  className="text-dark"
+                  onClick={closeSidebar}
+                >
                   {item.title}
                 </Link>
               </li>

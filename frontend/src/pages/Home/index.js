@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <div className="home-page-bg-container">
       <div className="home-page-main-container">
-        <div className="home-search-container shadow-md shadow-gray-300">
+        <div className="home-search-container">
           <input
             type="search"
             placeholder="Search by Company, Job Roles and Location"

@@ -58,7 +58,8 @@
   z-index: 1001;
   margin-top: auto;
   margin-bottom: auto;
-  margin-right: 15px;
+  margin-right: 23px;
+  scale: 1.4;
 }
 
 .hamburger__bar {

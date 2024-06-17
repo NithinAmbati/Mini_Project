@@ -1,7 +1,7 @@
 .job-item {
   border: 1px solid grey;
   border-radius: 10px;
-  min-width: 400px;
+  width: 330px;
 }
 
 .job-item:hover {
@@ -12,4 +12,10 @@
 a {
   text-decoration: none;
   color: black;
+}
+
+@media (min-width: 500px) {
+  .job-item {
+    width: 400px;
+  }
 }
