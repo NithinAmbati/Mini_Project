@@ -5,6 +5,14 @@
   min-height: 80vh;
 }
 
+.jobs-posted-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .jobs-posted-header {
   text-align: center;
   margin-bottom: 20px;

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./index.css";
 
@@ -40,7 +40,7 @@ const DetailedJobDescription = () => {
       },
     };
     const response = await fetch(
-      `http://localhost:8000/jobs/apply/${id}`,
+      `https://careerconnect-apis.vercel.app/jobs/apply/${id}`,
       options
     );
     if (!response.ok) {

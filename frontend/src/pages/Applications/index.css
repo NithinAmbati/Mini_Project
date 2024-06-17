@@ -4,23 +4,27 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  padding: 0 10px; /* Added padding to prevent overflow */
 }
 
 .applications-table {
-  width: 98%;
+  width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  overflow-x: auto; /* Allows horizontal scrolling */
+  display: block; /* Make table scrollable */
+  white-space: nowrap; /* Prevent table cells from wrapping */
 }
 
 .applications-table th,
 .applications-table td {
   border: 1px solid #ddd;
   padding: 8px;
+  text-align: left; /* Align text to the left */
 }
 
 .applications-table th {
   background-color: #f2f2f2;
-  text-align: left;
 }
 
 .applications-table tr:nth-child(even) {
@@ -81,15 +85,15 @@
 @media (min-width: 600px) {
   .applications-table {
     width: 95%;
-    border-collapse: collapse;
     margin: 20px 0;
+    display: table; /* Reset to table layout */
   }
 }
 
 @media (min-width: 768px) {
   .applications-table {
     width: 90%;
-    border-collapse: collapse;
     margin: 20px 0;
+    display: table; /* Reset to table layout */
   }
 }

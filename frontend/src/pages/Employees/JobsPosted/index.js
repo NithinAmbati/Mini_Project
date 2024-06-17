@@ -1,6 +1,6 @@
 import { Spin } from "antd";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import "./index.css";
 
@@ -10,11 +10,7 @@ const JobsPosted = () => {
   const [jobsPostedList, setJobsPostedList] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getJobsPostedList();
-  }, []);
-
-  const getJobsPostedList = async () => {
+  const getJobsPostedList = useCallback(async () => {
     const options = {
       method: "GET",
       headers: {
@@ -30,7 +26,11 @@ const JobsPosted = () => {
       setJobsPostedList(data);
       setLoading(false);
     }
-  };
+  }, [jwtToken]);
+
+  useEffect(() => {
+    getJobsPostedList();
+  }, [getJobsPostedList]);
 
   if (jwtToken === undefined) {
     return <Navigate to="/employer/login" />;
@@ -39,25 +39,28 @@ const JobsPosted = () => {
   return (
     <div className="jobs-posted-container">
       <h1 className="jobs-posted-header">Jobs Posted</h1>
-      {isLoading ? (
-        <div className="loading-spinner">
+      <div className="jobs-posted-list">
+        {isLoading ? (
           <Spin />
-        </div>
-      ) : jobsPostedList.length > 0 ? (
-        jobsPostedList.map((job) => (
-          <div
-            key={job._id}
-            className="job-item"
-            onClick={() => navigate(`/employer/jobs/posted/${job._id}`)}
-          >
-            <h4>{job._id}</h4>
-            <h2>{job.jobRole}</h2>
-            <p>{job.jobLocation}</p>
-          </div>
-        ))
-      ) : (
-        <h1 className="empty-message">No Jobs Posted</h1>
-      )}
+        ) : jobsPostedList.length > 0 ? (
+          jobsPostedList.map((job) => (
+            <div
+              key={job._id}
+              className="job-item"
+              onClick={() => navigate(`/employer/jobs/posted/${job._id}`)}
+            >
+              <h2>{job.jobRole}</h2>
+              <p>{job.jobLocation}</p>
+              <p>Number of applications : {job.applications.length}</p>
+              <p>
+                Posted on: {new Date(job.jobPostingDate).toLocaleDateString()}
+              </p>
+            </div>
+          ))
+        ) : (
+          <h1 className="empty-message">No Jobs Posted</h1>
+        )}
+      </div>
     </div>
   );
 };

@@ -94,10 +94,7 @@ const CompanyReviews = () => {
           <input type="search" className="company-reviews-search" />
           <button className="btn btn-primary">Find Companies</button>
         </div>
-        <a
-          href="/salary-guide"
-          className="underline text-blue-400 relative bottom-5"
-        >
+        <a href="/salary-guide" className="underline text-blue-400">
           Do you want to search for salaries?
         </a>
       </div>

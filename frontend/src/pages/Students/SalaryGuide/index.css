@@ -15,15 +15,31 @@
   top: 40px;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Added for better alignment */
   border-radius: 0.5rem;
-  border: 1px soild gray;
-  position: relative;
+  border: 1px solid gray; /* Corrected spelling mistake */
   width: 96%;
 }
 
 .salary-guide-search-container button {
   width: 20%;
   height: 60px;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #3061ff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.salary-guide-search-container input {
+  width: 80%;
+  height: 60px;
+}
+
+.salary-guide-search-container button:hover {
+  background-color: #678aff;
 }
 
 .salary-page-bottom-container {
@@ -48,6 +64,7 @@
   border-radius: 10px;
   padding: 20px;
   width: 300px;
+  transition: box-shadow 0.3s ease, border 0.3s ease; /* Added transition for hover effect */
 }
 
 .salary-item:hover {
@@ -59,5 +76,25 @@
 @media (min-width: 600px) {
   .salary-guide-search-container {
     width: 80%;
+  }
+}
+
+@media (max-width: 600px) {
+  .salary-guide-search-container {
+    flex-direction: column; /* Stack elements vertically on small screens */
+    height: auto; /* Allow container height to adjust */
+  }
+
+  .salary-guide-search-container input {
+    width: 100%;
+  }
+
+  .salary-guide-search-container button {
+    width: 50%; /* Make button full width */
+    margin-top: 15px; /* Add space above button */
+    height: 50px; /* Adjust button height */
+  }
+  .salary-page-bottom-container {
+    padding-top: 160px;
   }
 }

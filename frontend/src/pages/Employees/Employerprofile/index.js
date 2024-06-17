@@ -47,8 +47,7 @@ const EmployerProfile = () => {
       options
     );
     if (response.ok) {
-      const data = await response.json();
-      setUserData(data);
+      await response.json();
     }
     setIsEditing(false);
   };

@@ -22,11 +22,6 @@ router.get("/", async (req, res) => {
 
     const { email } = payload;
 
-    // const employer = await Employer.findOne({ email });
-    // if (!employer) {
-    //   return res.status(404).send("Employer not found");
-    // }
-    // intersectiong jobs with employer.jobsPosted
     const jobs = await Jobs.find({ postedBy: email });
     return res.status(200).send(jobs);
   } catch (error) {

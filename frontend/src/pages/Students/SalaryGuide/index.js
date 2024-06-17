@@ -47,7 +47,9 @@ const SalaryGuide = () => {
         </div>
       </div>
       <div className="salary-page-bottom-container">
-        <h4 className="font-bold">Browse Top Paying Companies by Industry</h4>
+        <h4 className="font-bold text-center">
+          Browse Top Paying Companies by Industry
+        </h4>
         <div className="salaries-list-container">
           {data.map((item) => (
             <div className="salary-item">
