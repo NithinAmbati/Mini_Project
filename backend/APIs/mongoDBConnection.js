@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const MONGO_URI =
-  "mongodb://localhost:27017/";
+  "mongodb://localhost:27017/jobby/";
 
 mongoose
   .connect(MONGO_URI, {})
