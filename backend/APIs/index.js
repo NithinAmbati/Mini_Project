@@ -9,6 +9,7 @@ const registerRouter = require("./register");
 const OtpRouter = require("./sendMail");
 const profileRouter = require("./profile");
 const jobsPostedRouter = require("./jobsPosted");
+const viewStudentsRouter = require("./viewStudents");
 
 // Use the routes from the different files
 
@@ -20,5 +21,6 @@ router.use("/jobs", jobsRouter);
 router.use("/", OtpRouter);
 router.use("/profile", profileRouter);
 router.use("/employer/jobs/posted", jobsPostedRouter);
+router.use("/employer/view-students", viewStudentsRouter);
 
 module.exports = router;
