@@ -1,5 +1,5 @@
 // store/jobsSlice.js
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 // import axios from "axios";
 
 // // Async thunk to fetch jobs data

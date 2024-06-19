@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import JobItem from "../../../components/JobItem";
 import { Spin } from "antd";
 import "./index.css";
@@ -10,11 +10,7 @@ const StudentHome = () => {
   const [jobsList, setJobsList] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getJobsList();
-  }, []);
-
-  const getJobsList = async () => {
+  const getJobsList = useCallback(async () => {
     const apiUrl = `https://careerconnect-apis.vercel.app/jobs`;
     const options = {
       method: "GET",
@@ -31,7 +27,12 @@ const StudentHome = () => {
       setJobsList(fetchedData);
       setLoading(false);
     }
-  };
+  }, [jwtToken]);
+
+  useEffect(() => {
+    getJobsList();
+  }, [getJobsList]);
+
   if (jwtToken === undefined) {
     return <Navigate to="/student/login" />;
   }

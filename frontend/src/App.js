@@ -20,6 +20,7 @@ import Header from "./layouts/Header";
 import JobsPosted from "./pages/Employees/JobsPosted";
 import Applications from "./pages/Applications";
 import NotFound from "./pages/NotFound";
+import ViewStudent from "./pages/Employees/viewStudents";
 import { Navigate } from "react-router-dom";
 
 const EmployerHeaderContent = [
@@ -38,6 +39,10 @@ const EmployerHeaderContent = [
   {
     title: "Profile",
     link: "/employer/profile",
+  },
+  {
+    title: "View Students",
+    link: "/employer/view-students",
   },
   {
     title: "Logout",
@@ -130,6 +135,7 @@ function App() {
           element={<Applications />}
         />
         <Route exact path="/employer/profile" element={<EmployerProfile />} />
+        <Route exact path="/employer/view-students" element={<ViewStudent />} />
         <Route exact path="/student/profile" element={<StudentProfile />} />
         <Route exact path="/student/salary-guide" element={<SalaryGuide />} />
         <Route

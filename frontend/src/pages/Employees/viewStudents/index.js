@@ -1,16 +1,15 @@
-import { useParams, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import "./index.css";
 
-const Applications = () => {
-  const { id } = useParams();
+const ViewStudents = () => {
   const jwtToken = Cookies.get("jwt_token");
-  const [applicationsList, setApplicationsList] = useState([]);
+  const [studentsList, setStudentsList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedResume, setSelectedResume] = useState("");
 
-  const getApplicationsList = useCallback(async () => {
+  const getStudentsList = useCallback(async () => {
     const options = {
       method: "GET",
       headers: {
@@ -19,16 +18,16 @@ const Applications = () => {
       },
     };
     const response = await fetch(
-      `https://careerconnect-apis.vercel.app/employer/jobs/posted/${id}`,
+      `https://careerconnect-apis.vercel.app/employer/view-students`,
       options
     );
-    const applications = await response.json();
-    setApplicationsList(applications);
-  }, [jwtToken, id]);
+    const data = await response.json();
+    setStudentsList(data);
+  }, [jwtToken]);
 
   useEffect(() => {
-    getApplicationsList();
-  }, [getApplicationsList]);
+    getStudentsList();
+  }, [getStudentsList]);
 
   const handleViewResume = (resume) => {
     setSelectedResume(resume);
@@ -46,8 +45,8 @@ const Applications = () => {
 
   return (
     <div className="applications-bg-container">
-      <h1>Applications</h1>
-      {applicationsList.length > 0 ? (
+      <h1>Students List</h1>
+      {studentsList.length > 0 ? (
         <table className="applications-table">
           <thead>
             <tr>
@@ -58,7 +57,7 @@ const Applications = () => {
             </tr>
           </thead>
           <tbody>
-            {applicationsList.map((application) => (
+            {studentsList.map((application) => (
               <tr key={application._id}>
                 <td>{application.username}</td>
                 <td>{application.email}</td>
@@ -76,7 +75,7 @@ const Applications = () => {
           </tbody>
         </table>
       ) : (
-        <h1>No applications found</h1>
+        <h1>No students found</h1>
       )}
 
       {showModal && (
@@ -93,4 +92,4 @@ const Applications = () => {
   );
 };
 
-export default Applications;
+export default ViewStudents;
