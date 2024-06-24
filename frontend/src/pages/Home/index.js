@@ -6,6 +6,7 @@ import "./index.css";
 const Home = () => {
   const [jobsList, setJobsList] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     getJobsList();
@@ -29,6 +30,15 @@ const Home = () => {
     }
   };
 
+  const filteredJobsList = jobsList.filter(
+    (item) =>
+      item.companyName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      item.jobRole.toLowerCase().includes(searchInput.toLowerCase()) ||
+      item.jobLocation.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  console.log(searchInput);
+
   return (
     <div className="home-page-bg-container">
       <div className="home-page-main-container">
@@ -37,6 +47,8 @@ const Home = () => {
             type="search"
             placeholder="Search by Company, Job Roles and Location"
             className="border-r p-2"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
           <button className="btn btn-primary">Find Jobs</button>
         </div>
@@ -53,7 +65,7 @@ const Home = () => {
           <Spin size="large" />
         ) : (
           <div className="jobs-list-container">
-            {jobsList.map((item) => (
+            {filteredJobsList.map((item) => (
               <JobItem item={item} key={item._id} />
             ))}
           </div>

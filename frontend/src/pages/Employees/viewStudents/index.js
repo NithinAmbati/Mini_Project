@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { Spin } from "antd";
 import "./index.css";
 
 const ViewStudents = () => {
@@ -8,6 +9,7 @@ const ViewStudents = () => {
   const [studentsList, setStudentsList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedResume, setSelectedResume] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const getStudentsList = useCallback(async () => {
     const options = {
@@ -23,6 +25,7 @@ const ViewStudents = () => {
     );
     const data = await response.json();
     setStudentsList(data);
+    setLoading(false);
   }, [jwtToken]);
 
   useEffect(() => {
@@ -46,7 +49,9 @@ const ViewStudents = () => {
   return (
     <div className="applications-bg-container">
       <h1>Students List</h1>
-      {studentsList.length > 0 ? (
+      {loading ? (
+        <Spin />
+      ) : studentsList.length > 0 ? (
         <table className="applications-table">
           <thead>
             <tr>
@@ -57,15 +62,15 @@ const ViewStudents = () => {
             </tr>
           </thead>
           <tbody>
-            {studentsList.map((application) => (
-              <tr key={application._id}>
-                <td>{application.username}</td>
-                <td>{application.email}</td>
-                <td>{application.contactNumber}</td>
+            {studentsList.map((student) => (
+              <tr key={student._id}>
+                <td>{student.username}</td>
+                <td>{student.email}</td>
+                <td>{student.contactNumber}</td>
                 <td>
                   <button
                     className="view-resume-button"
-                    onClick={() => handleViewResume(application.resume)}
+                    onClick={() => handleViewResume(student.resume)}
                   >
                     View Resume
                   </button>
@@ -75,7 +80,7 @@ const ViewStudents = () => {
           </tbody>
         </table>
       ) : (
-        <h1>No students found</h1>
+        <h3>No students found</h3>
       )}
 
       {showModal && (

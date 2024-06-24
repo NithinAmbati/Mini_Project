@@ -1,6 +1,7 @@
 import { useParams, Navigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { Spin } from "antd";
 import "./index.css";
 
 const Applications = () => {
@@ -9,6 +10,7 @@ const Applications = () => {
   const [applicationsList, setApplicationsList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedResume, setSelectedResume] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const getApplicationsList = useCallback(async () => {
     const options = {
@@ -24,6 +26,7 @@ const Applications = () => {
     );
     const applications = await response.json();
     setApplicationsList(applications);
+    setLoading(false);
   }, [jwtToken, id]);
 
   useEffect(() => {
@@ -47,7 +50,9 @@ const Applications = () => {
   return (
     <div className="applications-bg-container">
       <h1>Applications</h1>
-      {applicationsList.length > 0 ? (
+      {loading ? (
+        <Spin />
+      ) : (
         <table className="applications-table">
           <thead>
             <tr>
@@ -75,8 +80,6 @@ const Applications = () => {
             ))}
           </tbody>
         </table>
-      ) : (
-        <h1>No applications found</h1>
       )}
 
       {showModal && (

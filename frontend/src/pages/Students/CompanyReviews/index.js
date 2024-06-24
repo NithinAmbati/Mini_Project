@@ -44,6 +44,7 @@ const CompanyReviews = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     getCompaniesReviewsList();
@@ -83,6 +84,10 @@ const CompanyReviews = () => {
     return <Navigate to="/student/login" />;
   }
 
+  const filteredCompaniesReviewsList = companiesReviewsList.filter((item) =>
+    item.companyName.toLowerCase().includes(searchInput)
+  );
+
   return (
     <div className="company-reviews-page-container">
       <h1 className="text-center">Find great places to work</h1>
@@ -91,7 +96,13 @@ const CompanyReviews = () => {
       </h5>
       <div>
         <div className="company-reviews-search-container">
-          <input type="search" className="company-reviews-search" />
+          <input
+            type="search"
+            className="company-reviews-search"
+            placeholder="Search for Comapny Reviews"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
           <button className="btn btn-primary">Find Companies</button>
         </div>
         <a href="/salary-guide" className="underline text-blue-400">
@@ -102,7 +113,7 @@ const CompanyReviews = () => {
         {isLoading ? (
           <Spin size="large" />
         ) : (
-          companiesReviewsList.map((item, index) => (
+          filteredCompaniesReviewsList.map((item, index) => (
             <CompanyReviewItem key={index} item={item} index={index} />
           ))
         )}
