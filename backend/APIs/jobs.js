@@ -73,13 +73,6 @@ router.post("/", async (req, res) => {
       postedBy: email,
     });
     await newJob.save();
-
-    // Update the document by adding the new job to the jobsPosted array
-    // await Employer.updateOne(
-    //   { email: email },
-    //   { $push: { jobsPosted: newJob._id } } // Assuming you want to store job IDs in the array
-    // );
-
     res.status(200).send("Job Posted successfully");
   } catch (error) {
     res.status(500).send("Internal Server Error");
@@ -132,5 +125,15 @@ router.put("/apply/:id", async (req, res) => {
     return;
   }
 });
+
+const deleteJobsAfterDeadline = async () => {
+  try {
+    await Jobs.deleteMany({ applicationDeadline: { $lt: new Date() } });
+  } catch (error) {
+    console.log("Failed to delete");
+  }
+};
+
+deleteJobsAfterDeadline();
 
 module.exports = router;
