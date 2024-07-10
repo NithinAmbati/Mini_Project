@@ -6,7 +6,9 @@ const { Jobs } = require("./startMongoose");
 router.get("/", async (req, res) => {
   try {
     // Query job listings
-    const jobListings = await Jobs.find();
+    const jobListings = await Jobs.find({
+      $gt: { applicationDeadline: new Date() },
+    });
     res.status(200).send(jobListings);
   } catch (error) {
     res.status(500).send("Internal Server Error");
@@ -134,6 +136,6 @@ const deleteJobsAfterDeadline = async () => {
   }
 };
 
-deleteJobsAfterDeadline();
+//deleteJobsAfterDeadline();
 
 module.exports = router;
