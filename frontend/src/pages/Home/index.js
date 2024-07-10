@@ -65,9 +65,10 @@ const Home = () => {
           <Spin size="large" />
         ) : (
           <div className="jobs-list-container">
-            {filteredJobsList.map((item) => (
-              <JobItem item={item} key={item._id} />
-            ))}
+            {filteredJobsList.length > 0 &&
+              filteredJobsList.map((item) => (
+                <JobItem item={item} key={item._id} />
+              ))}
           </div>
         )}
       </div>

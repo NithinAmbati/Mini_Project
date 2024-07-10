@@ -3,6 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./index.css";
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return "Invalid Date";
+  }
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+}
+
 const JobItem = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,6 +48,15 @@ const JobItem = (props) => {
     return diffDays;
   }
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return "Invalid Date";
+    }
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  }
+
   return (
     <div
       className="job-item p-4 m-3 shadow-sm shadow-gray-400"
@@ -61,7 +79,7 @@ const JobItem = (props) => {
         <p>Duration: {jobDuration}</p>
         <p> Working Hours: {workHours}</p>
         <p>
-          <strong>Deadline: </strong> {applicationDeadline}
+          <strong>Deadline: </strong> {formatDate(applicationDeadline)}
         </p>
       </div>
     </div>

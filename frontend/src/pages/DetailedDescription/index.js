@@ -3,6 +3,41 @@ import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./index.css";
 
+const verifyProfile = async (jwtToken) => {
+  if (!jwtToken) return false;
+  try {
+    const response = await fetch("http://localhost:8000/verify-profile", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${jwtToken}`,
+      },
+    });
+    if (response.ok) return true;
+    else return false;
+  } catch (error) {
+    console.error("Error verifying profile:", error);
+    return false;
+  }
+};
+
+const checkForApplied = async (id, jwtToken) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/jobs/${id}/check-isapplied`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${jwtToken}`,
+        },
+      }
+    );
+    if (response.ok) return true;
+    return false;
+  } catch (error) {
+    return false;
+  }
+};
+
 const DetailedJobDescription = () => {
   const { id } = useParams();
   const jwtToken = Cookies.get("jwt_token");
@@ -32,6 +67,21 @@ const DetailedJobDescription = () => {
       alert("Login to Apply jobs");
       return;
     }
+
+    const isAlreadyApplied = await checkForApplied(id, jwtToken);
+    if (isAlreadyApplied) {
+      alert("You have already applied for this job");
+      return;
+    }
+
+    const isVerified = await verifyProfile(jwtToken);
+    console.log(isVerified);
+
+    if (!isVerified) {
+      alert("Please complete your profile before applying");
+      return;
+    }
+
     const options = {
       method: "PUT",
       headers: {

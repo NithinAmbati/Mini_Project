@@ -128,14 +128,29 @@ router.put("/apply/:id", async (req, res) => {
   }
 });
 
-// const deleteJobsAfterDeadline = async () => {
-//   try {
-//     await Jobs.deleteMany({ applicationDeadline: { $lt: new Date() } });
-//   } catch (error) {
-//     console.log("Failed to delete");
-//   }
-// };
+router.get("/:id/check-isapplied", async (req, res) => {
+  const { id } = req.params;
 
-//deleteJobsAfterDeadline();
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    res.status(401).send("Invalid Access Token");
+    return;
+  }
+  const jwtToken = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(jwtToken, "Nithin");
+    if (!payload) res.status(401).send("Invalid Access Token");
+    const { email } = payload;
+    const job = await Jobs.findById(id);
+    if (!job) return res.status(404).send("Job not found");
+    if (job.applications.includes(email)) {
+      res.status(200).send({ isApplied: true });
+    } else {
+      res.status(400).send({ isApplied: false });
+    }
+  } catch (error) {
+    res.status(400).send({ isApplied: false });
+  }
+});
 
 module.exports = router;
