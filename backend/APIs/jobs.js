@@ -5,12 +5,12 @@ const { Jobs } = require("./startMongoose");
 
 router.get("/", async (req, res) => {
   try {
-    // Query job listings
     const jobListings = await Jobs.find({
-      $gt: { applicationDeadline: new Date() },
+      applicationDeadline: { $gt: new Date() },
     });
     res.status(200).send(jobListings);
   } catch (error) {
+    console.error("Error fetching job listings:", error);
     res.status(500).send("Internal Server Error");
   }
 });
