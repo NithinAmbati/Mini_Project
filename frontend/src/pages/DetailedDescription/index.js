@@ -6,12 +6,15 @@ import "./index.css";
 const verifyProfile = async (jwtToken) => {
   if (!jwtToken) return false;
   try {
-    const response = await fetch("http://localhost:8000/verify-profile", {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${jwtToken}`,
-      },
-    });
+    const response = await fetch(
+      "https://careerconnect-apis.vercel.app/verify-profile",
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${jwtToken}`,
+        },
+      }
+    );
     if (response.ok) return true;
     else return false;
   } catch (error) {
@@ -23,7 +26,7 @@ const verifyProfile = async (jwtToken) => {
 const checkForApplied = async (id, jwtToken) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/jobs/${id}/check-isapplied`,
+      `https://careerconnect-apis.vercel.app/jobs/${id}/check-isapplied`,
       {
         method: "GET",
         headers: {
