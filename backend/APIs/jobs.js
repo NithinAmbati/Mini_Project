@@ -128,13 +128,13 @@ router.put("/apply/:id", async (req, res) => {
   }
 });
 
-const deleteJobsAfterDeadline = async () => {
-  try {
-    await Jobs.deleteMany({ applicationDeadline: { $lt: new Date() } });
-  } catch (error) {
-    console.log("Failed to delete");
-  }
-};
+// const deleteJobsAfterDeadline = async () => {
+//   try {
+//     await Jobs.deleteMany({ applicationDeadline: { $lt: new Date() } });
+//   } catch (error) {
+//     console.log("Failed to delete");
+//   }
+// };
 
 //deleteJobsAfterDeadline();
 
