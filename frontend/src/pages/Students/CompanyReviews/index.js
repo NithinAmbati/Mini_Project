@@ -4,7 +4,7 @@ import { RiStarSFill } from "react-icons/ri";
 import SubmitFeedback from "./SubmitFeedback";
 import Cookies from "js-cookie";
 import { Spin } from "antd";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const CompanyReviewItem = ({ item, index }) => {
   return (
@@ -39,6 +39,8 @@ const CompanyReviewItem = ({ item, index }) => {
 };
 
 const CompanyReviews = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
   const jwtToken = Cookies.get("jwt_token");
   const [companiesReviewsList, setCompaniesReviewsList] = useState([]);
   const [rating, setRating] = useState(0);
@@ -105,8 +107,13 @@ const CompanyReviews = () => {
           />
           <button className="btn btn-primary">Find Companies</button>
         </div>
+        {pathname.startsWith("/student") && (
+          <a href="/salary-guide" className="underline text-blue-400">
+            Do you want to search for salaries?
+          </a>
+        )}
       </div>
-      <div className="company-reviews-container mt-5">
+      <div className="company-reviews-container">
         {isLoading ? (
           <Spin size="large" />
         ) : (
@@ -115,6 +122,33 @@ const CompanyReviews = () => {
           ))
         )}
       </div>
+      {pathname.startsWith("/student") && (
+        <div className="rating-system">
+          <h3 className="font-bold">Rate your recent Employer: </h3>
+          <div className="star-rating mx-4">
+            {[...Array(5)].map((star, index) => {
+              const ratingValue = index + 1;
+              return (
+                <span
+                  key={index}
+                  className={
+                    ratingValue <= (hover || rating) ? "star selected" : "star"
+                  }
+                  onClick={() => setRating(ratingValue)}
+                  onMouseEnter={() => setHover(ratingValue)}
+                  onMouseLeave={() => setHover(0)}
+                >
+                  &#9733;
+                </span>
+              );
+            })}
+          </div>
+          <SubmitFeedback
+            submitFeedback={submitFeedback}
+            getCompaniesReviewsList={getCompaniesReviewsList}
+          />
+        </div>
+      )}
     </div>
   );
 };
