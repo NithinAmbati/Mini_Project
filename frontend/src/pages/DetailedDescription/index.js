@@ -3,6 +3,15 @@ import { useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./index.css";
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return "Invalid Date";
+  }
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+}
+
 const verifyProfile = async (jwtToken) => {
   if (!jwtToken) return false;
   try {
@@ -115,7 +124,7 @@ const DetailedJobDescription = () => {
           <strong>Mode:</strong> {jobDetails.jobMode}
         </p>
         <p>
-          <strong>Type:</strong> {jobDetails.jobType}
+          <strong>Job Type:</strong> {jobDetails.jobType}
         </p>
         <p>
           <strong>Stipend:</strong> {jobDetails.stipend}
@@ -133,11 +142,11 @@ const DetailedJobDescription = () => {
           <strong>Education Level:</strong> {jobDetails.educationLevel}
         </p>
         <p>
-          <strong>Posting Date:</strong> {jobDetails.jobPostingDate}
+          <strong>Posting Date:</strong> {formatDate(jobDetails.jobPostingDate)}
         </p>
         <p>
           <strong>Application Deadline:</strong>{" "}
-          {jobDetails.applicationDeadline}
+          {formatDate(jobDetails.applicationDeadline)}
         </p>
         <p>
           <strong>Application Process:</strong> {jobDetails.applicationProcess}

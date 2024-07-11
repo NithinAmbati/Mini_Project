@@ -52,13 +52,16 @@ const Home = () => {
           />
           <button className="btn btn-primary">Find Jobs</button>
         </div>
-        <p className="self-center mt-[20px]">
+        <a className="self-center my-[20px]" href="/student/login">
           <span className="text-blue-800 font-bold">Post your Resume</span> -
           For better UserExperience
-        </p>
-        <p className="text-blue-800 font-bold self-center mt-[-5px]">
+        </a>
+        <a
+          className="text-blue-800 font-bold self-center mt-[-5px]"
+          href="/employer/login"
+        >
           Post a Job on CAREERCONNECT
-        </p>
+        </a>
         <hr className="self-center w-75" />
         <h1 className="self-center">Jobs</h1>
         {isLoading ? (

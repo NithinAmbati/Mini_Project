@@ -77,9 +77,12 @@ router.put("/student", async (req, res) => {
       experience,
       education,
       address,
-      contact,
+      contactNumber,
       resume,
     } = req.body;
+    if (contactNumber.length !== 10) {
+      res.status(401).send("Invalid Contact Number");
+    }
     const { email } = payload;
     const userDetails = await Student.updateOne(
       { email },
@@ -90,7 +93,7 @@ router.put("/student", async (req, res) => {
           experience: experience,
           education: education,
           address,
-          contactNumber: contact,
+          contactNumber,
           resume,
         },
       }

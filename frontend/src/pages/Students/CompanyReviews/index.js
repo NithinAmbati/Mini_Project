@@ -105,11 +105,8 @@ const CompanyReviews = () => {
           />
           <button className="btn btn-primary">Find Companies</button>
         </div>
-        <a href="/salary-guide" className="underline text-blue-400">
-          Do you want to search for salaries?
-        </a>
       </div>
-      <div className="company-reviews-container">
+      <div className="company-reviews-container mt-5">
         {isLoading ? (
           <Spin size="large" />
         ) : (
@@ -117,31 +114,6 @@ const CompanyReviews = () => {
             <CompanyReviewItem key={index} item={item} index={index} />
           ))
         )}
-      </div>
-      <div className="rating-system">
-        <h3 className="font-bold">Rate your recent Employer: </h3>
-        <div className="star-rating mx-4">
-          {[...Array(5)].map((star, index) => {
-            const ratingValue = index + 1;
-            return (
-              <span
-                key={index}
-                className={
-                  ratingValue <= (hover || rating) ? "star selected" : "star"
-                }
-                onClick={() => setRating(ratingValue)}
-                onMouseEnter={() => setHover(ratingValue)}
-                onMouseLeave={() => setHover(0)}
-              >
-                &#9733;
-              </span>
-            );
-          })}
-        </div>
-        <SubmitFeedback
-          submitFeedback={submitFeedback}
-          getCompaniesReviewsList={getCompaniesReviewsList}
-        />
       </div>
     </div>
   );

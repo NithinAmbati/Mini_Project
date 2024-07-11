@@ -48,13 +48,11 @@ const StudentHome = () => {
           />
           <button className="btn btn-primary">Find Jobs</button>
         </div>
-        <p className="self-center mt-[20px]">
+        <a className="self-center mt-[20px]" href="/student/profile">
           <span className="text-blue-800 font-bold">Post your Resume</span> -
           For better UserExperience
-        </p>
-        <p className="text-blue-800 font-bold self-center mt-[-5px]">
-          Post a Job on Jobby
-        </p>
+        </a>
+
         <hr className="self-center w-75" />
         <h1 className="self-center">Jobs</h1>
         {isLoading ? (

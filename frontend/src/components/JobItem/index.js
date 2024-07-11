@@ -3,15 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./index.css";
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  if (isNaN(date.getTime())) {
-    return "Invalid Date";
-  }
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  return date.toLocaleDateString("en-US", options);
-}
-
 const JobItem = (props) => {
   const location = useLocation();
   const navigate = useNavigate();

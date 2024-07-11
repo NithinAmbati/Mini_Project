@@ -116,14 +116,16 @@ const EmployerProfile = () => {
         "https://careerconnect-apis.vercel.app/profile/student",
         options
       );
-      if (response.ok) {
+      if (response.status === 200) {
         setProfile(updatedProfile);
         setIsEditing(false);
+      } else if (response.status === 401) {
+        alert("Invalid contact information");
       } else {
-        console.error("Failed to update profile");
+        alert("Failed to update profile");
       }
     } catch (err) {
-      console.error("Error updating profile:", err);
+      alert("Error updating profile:", err);
     }
     setLoading(false);
   };
